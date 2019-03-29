@@ -1,5 +1,5 @@
 /***
- * Blue Metal OS startup code
+ * Blue OS startup code
 ***/
 #include "BlueOS_startup.h"
 #include "BlueOS_registers.h"
@@ -82,8 +82,8 @@ void hold_hdlr( void ){
     while(1);
 }
 /*
-The rest of these handlers are only in the vector table if BMOS_DEBUG is defined.
-See BlueMetalOS_vectors.S
+The rest of these handlers are only in the vector table if BOS_DEBUG is defined.
+See BlueOS_vectors.S
 */
 void hf_hdlr( void ){
     debug_Hard_Fault();

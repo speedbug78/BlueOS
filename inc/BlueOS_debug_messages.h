@@ -1,7 +1,7 @@
-#ifndef BMOS_DEBUG_MSG_H
-#define BMOS_DEBUG_MSG_H
+#ifndef BOS_DEBUG_MSG_H
+#define BOS_DEBUG_MSG_H
 
-#define BMOS_DEBUG
+#define BOS_DEBUG
 
 void debug_Boot_Finished( void );
 void debug_Hard_Fault( void );

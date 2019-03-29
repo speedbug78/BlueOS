@@ -1,5 +1,5 @@
-#ifndef BMOS_STARTUP_H
-#define BMOS_STARTUP_H
+#ifndef BOS_STARTUP_H
+#define BOS_STARTUP_H
 
 #include <stdint.h>
 

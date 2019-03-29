@@ -1,5 +1,5 @@
-#ifndef BMOS_SERIAL_H
-#define BMOS_SERIAL_H
+#ifndef BOS_SERIAL_H
+#define BOS_SERIAL_H
 
 #include <stdint.h>
 

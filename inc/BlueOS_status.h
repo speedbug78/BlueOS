@@ -1,5 +1,5 @@
-#ifndef BMOS_STATUS_H
-#define BMOS_STATUS_H
+#ifndef BOS_STATUS_H
+#define BOS_STATUS_H
 
 #include <stdint.h>
 

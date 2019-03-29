@@ -1,5 +1,5 @@
-#ifndef DANOS_BOOTLOADER
-#define DANOS_BOOTLOADER
+#ifndef BOS_BOOTLOADER
+#define BOS_BOOTLOADER
 
 #include <stdint.h>
 
