@@ -1,4 +1,4 @@
-#include "BlueOS_serial.h"
+#include "BlueOS_console.h"
 #include "BlueOS_registers.h"
 
 static const uint8_t Lookup[17] = {"0123456789ABCDEF"};

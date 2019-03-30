@@ -1,5 +1,5 @@
-#ifndef BOS_SERIAL_H
-#define BOS_SERIAL_H
+#ifndef BOS_CONSOLE_H
+#define BOS_CONSOLE_H
 
 #include <stdint.h>
 

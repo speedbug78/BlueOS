@@ -17,10 +17,11 @@ CFLAGS= -c -fno-common    \
 	-Os                   \
 	-mcpu=cortex-m3 -Wall \
 	-mthumb               \
-	-std=c99              \
+	-std=gnu99              \
 	-DSTM32F103CB         \
 	-DSTM32F10X_MD        \
 	-DBLUE_PILL
+	#-DMAPLE_MINI
 
 OUTPUT_DIR = lib
 OCFLAGS = -Obinary
@@ -28,15 +29,10 @@ ODFLAGS = -S
 TARGET  = $(OUTPUT_DIR)/main
 
 INCLUDE =  -I./inc   \
-           -I./cmsis \
-           -I./sys   \
-           -I./drv   \
-           -I./drv/MPU9250
+           -I./cmsis
 
-SRCS =     ./drv/BlueOS_I2C.c     \
-           ./drv/BlueOS_serial.c  \
-           ./drv/BlueOS_systick.c \
-           ./drv/MPU9250/BlueOS_MPU9255.c
+SRCS =     ./src/BlueOS_console.c  \
+           ./src/BlueOS_systick.c
 
 OBJS=$(SRCS:.c=.o)
 
