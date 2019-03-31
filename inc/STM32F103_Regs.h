@@ -4,6 +4,7 @@
 /***
  * Cortex M3 Registers
 ***/
+//<PM0056 4.4.14>
 #define SCB_CPUID       0xE000ED00  //Processor identification
 #define SCB_ICSR        0xE000ED04  //PendSV and Systick interrupt control
 #define SCB_VTOR        0xE000ED08  //Vector table relocation
@@ -18,6 +19,15 @@
 #define SCB_HFSR        0xE000ED2C
 #define SCB_MMAR        0xE000ED34
 #define SCB_BFAR        0xE000ED38
+
+//<PM0056 4.5.6>
+#define SYSTICK_CTRL    0xE000E010
+#define SYSTICK_LOAD    0xE000E014
+#define SYSTICK_VAL     0xE000E018
+#define SYSTICK_CALIB   0xE000E01C
+
+//<PM0056 4.3.11>
+#define NVIC_ISER0      0xE000E100
 
 /***
     * AHB Bus
