@@ -8,8 +8,9 @@ void switcher_Startup( void ){
 void switcher_Handler( void ){
     //Clear switch (PendSV) interrupt
     reg( SCB_ICSR ) |= 0x08000000;
+    //Set next contect switch
 
-    //Perform context switch
+    //Perform this context switch
     //Stash current working registers
     //Pull new working registers
 }
