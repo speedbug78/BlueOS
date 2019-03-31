@@ -1,9 +1,9 @@
-#ifndef BOS_BOOTLOADER
-#define BOS_BOOTLOADER
+#ifndef BOS_LOADER
+#define BOS_LOADER
 
-#include <stdint.h>
+#include "BlueOS_types.h"
 
-void bootloader( void );
+void loader( void );
 void send_Char( char character );
 void send_Str( char* strptr );
 char receive_Char( void );
@@ -15,7 +15,7 @@ void wait_Flash( void );
 void get_Ihex( void );
 uint8_t char_Byte( void );
 void write_Flash ( uint16_t data, uint32_t address );
-void verify_Bootload( void );
+void verify_Load( void );
 void send_Byte( uint8_t );
 void send_Uint32( uint32_t );
 

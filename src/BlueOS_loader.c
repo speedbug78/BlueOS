@@ -1,10 +1,14 @@
-
-#include "BlueOS_bootloader.h"
+#include "BlueOS_loader.h"
 #include "BlueOS_registers.h"
 #include "BlueOS_debug_messages.h"
 
-void bootloader( void ){
-    send_Str( "\r\nBootloader" );                                   //Display the bootloader banner and tell the user we are erasing flash
+static void loader_Startup( void );
+
+void loader( void ){
+    send_Str( BOOTLOAD_BANNER );                                   //Display the loader banner and tell the user we are erasing flash
+
+    //Configure processor for internal flash writing
+    loader_Startup();
 
     //Erase Flash
     erase_Flash();                                          //If erase_Flash doesn't return 0, there is an error.
@@ -12,6 +16,21 @@ void bootloader( void ){
     debug_Hex_Load();                                               //Tell user we are ready to load a HEX file.
 
     get_Ihex();                                            //Receive HEX file and write to flash.                                                     //Return no errors
+}
+
+static void loader_Startup( void ){
+    //Save clock state
+
+    //Configure Clock to 8MHz HSI
+    reg( RCC_CR )      |= (uint32_t)0x00000001;                 //Reset RCC clock to default HSI (don't change HSI trim)
+    reg( RCC_CFGR )    &= (uint32_t)0xF0FF0000;                 //Set HSI as clock, not divided for AHB, APB1 and APB2.  /2 for ADC.  No clock output
+    reg( RCC_CR )      &= (uint32_t)0xFEF6FFFF;                 //Turn off PLL, HSE and Clock security
+    reg( RCC_CR )      &= (uint32_t)0xFFFBFFFF;                 //HSE not bypassed
+    reg( RCC_CFGR )    &= (uint32_t)0xFF80FFFF;                 //Reset PLL and USB OTG values
+    reg( RCC_CIR )      = (uint32_t)0x009F0000;                 //Clear interrupt flags for clock security and PLL, HSE, HSI, LSE and LSI ready
+
+    //Configure Flash
+    reg( FLASH_ACR )    = (uint32_t)0x00000030;                 //18? Reset state of flash. 0 wait states (HSI is 8Mhz), prefetch buffer enabled.
 }
 
 //Erase all of the user flash (non-bootloader flash) in the processor.

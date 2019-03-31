@@ -1,9 +1,9 @@
 #ifndef BOS_STATUS_H
 #define BOS_STATUS_H
 
-#include <stdint.h>
+#include "BlueOS_types.h"
 
 void status_Fast_LED( void );
-void status_Init( void );
+void status_Startup( void );
 
 #endif

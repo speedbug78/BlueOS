@@ -68,7 +68,7 @@ char receive_CharN( void ){
     return -1;
 }
 
-void serial_Init( void ){
+void console_Startup( void ){
     //Init UART
     reg( USART1_CR1 )   = (uint16_t)0x0000;                 //Turn off USART1 and reset
     reg( USART1_CR2 )   = (uint16_t)0x0000;                 //Reset

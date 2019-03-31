@@ -1,7 +1,7 @@
 #ifndef BOS_STARTUP_H
 #define BOS_STARTUP_H
 
-#include <stdint.h>
+#include "BlueOS_types.h"
 
 void reset_hdlr( void );
 void hold_hdlr( void );

@@ -1,6 +1,6 @@
 #include "BlueOS_debug_messages.h"
 #include "BlueOS_registers.h"
-#include "BlueOS_serial.h"
+#include "BlueOS_console.h"
 
 void debug_Boot_Finished( void ){
     #ifdef BOS_DEBUG

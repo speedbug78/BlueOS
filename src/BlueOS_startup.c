@@ -3,45 +3,65 @@
 ***/
 #include "BlueOS_startup.h"
 #include "BlueOS_registers.h"
-#include "BlueOS_bootloader.h"
+#include "BlueOS_loader.h"
 #include "BlueOS_debug_messages.h"
 #include "BlueOS_status.h"
-#include "BlueOS_serial.h"
+#include "BlueOS_console.h"
 
-void boot_entry( void );
+// Declaration of local file functions
+static void boot_entry( void );
 
-/*
-Vector handler that is called on processor reset
-*/
+/***
+ * Vector handler that is called on processor reset
+ * This is where code begins executing.
+***/
 void reset_hdlr( void ){
-    //Configure Clock to 8MHz HSI
-    reg( RCC_CR )      |= (uint32_t)0x00000001;                 //Reset RCC clock to default HSI (don't change HSI trim)
-    reg( RCC_CFGR )    &= (uint32_t)0xF0FF0000;                 //Set HSI as clock, not divided for AHB, APB1 and APB2.  /2 for ADC.  No clock output
-    reg( RCC_CR )      &= (uint32_t)0xFEF6FFFF;                 //Turn off PLL, HSE and Clock security
-    reg( RCC_CR )      &= (uint32_t)0xFFFBFFFF;                 //HSE not bypassed
-    reg( RCC_CFGR )    &= (uint32_t)0xFF80FFFF;                 //Reset PLL and USB OTG values
+    /***
+     * Configure SYSCLOCK for 72Mhz (HSE is 8Mhz for Blue Pill and Maple Mini)
+    ***/
+    //Set clock control <RM0008 7.3.1>
+    reg( RCC_CR )      |= (uint32_t)0x00010000;                 //Turn on HSE
+    while(( reg( RCC_CR ) & (uint32_t)0x00020000 ) == 0 ){}     //Wait for HSE to start up (add timeout?)
+
+    //Configure Flash <RM0008  Section 3.3.3>
+    reg( FLASH_ACR )    = (uint32_t)0x0000001A;                 //Reset state of flash. 2 wait states (SYSCLK > 48Mhz), prefetch buffer enabled.
+
+    //Set clock configuration <RM0008  Section 7.3.2>
+    reg( RCC_CFGR )    &= ~(uint32_t)0x073FFFF3;                //Reset appropriate clock bits.
+    reg( RCC_CFGR )    |= (uint32_t)0x001D0400;                 //AHB, APB2 not divided (72Mhz), APB1 and ADC div 2 (36Mhz).
+
+    //Set clock control <RM0008 7.3.1>
+    reg( RCC_CR )      |= (uint32_t)0x01000000;                 //Turn on PLL
+    while(( reg( RCC_CR ) & (uint32_t)0x02000000 ) == 0 ){}     //Wait for PLL to start up
+
+    //Set clock configuration <RM0008  Section 7.3.2>
+    reg( RCC_CFGR )    |= (uint32_t)0x00000002;                 //Set PLL as system clock source
+    while(( reg( RCC_CFGR ) & (uint32_t)0x0000000C ) != 0x08 ){}//Wait for PLL to become clock source
+
+    //Set clock interrupt register <RM0008  Section 7.3.3>
     reg( RCC_CIR )      = (uint32_t)0x009F0000;                 //Clear interrupt flags for clock security and PLL, HSE, HSI, LSE and LSI ready
 
-    //Configure Flash
-    reg( FLASH_ACR )    = (uint32_t)0x00000030;                 //Reset state of flash. 0 wait states (HSI is 8Mhz), prefetch buffer enabled.
+    /***
+     * At this point the processor should be up and running at 72Mhz
+     * and USART 1 is active for console IO
+    ***/
 
-    //Enable Peripheral Clocks
-    reg( RCC_APB2ENR ) |= (uint32_t)0x0000401D;                 //Turn on GPIOA, GPIOB, GPIOC, AFIO and USART1
+    /***
+     * Configure Peripheral Clocks
+    ***/
+    //Enable Peripheral Clocks <RM0008  Section 7.3.7>
+    reg( RCC_APB2ENR ) |= (uint32_t)0x00004005;                 //Turn on GPIOA, AFIO and USART1
 
-    //Configure PB15 as a push/pull output for power on
-    reg( GPIOB_CRH )   &= (uint32_t)0x0FFFFFFF;                 //Reset PB15 settings
-    reg( GPIOB_CRH )   |= (uint32_t)0x20000000;                 //PB15 push pull output
-    reg( GPIOB_BSRR )  |= (uint16_t)0x8000;                     //Set PB15 to keep processor powered on.
-
-    //Configure PA9 (Tx) and PA10 (Rx)
+    //Configure PA9 (Tx) and PA10 (Rx) <RM0008  Section 9.2.2>
     reg( GPIOA_CRH )   &= (uint32_t)0xFFFFFF0F;                 //Reset PA9 settings
     reg( GPIOA_CRH )   |= (uint32_t)0x00000090;                 //PA9 alternate function output, push pull, 10Mhz
 
-    status_Init();
+    /***
+     * Continue startup
+    ***/
+    status_Startup();
 
-    serial_Init();
-
-    send_Str( BOOTLOAD_BANNER );
+    console_Startup();
 
     boot_entry();
 
@@ -53,7 +73,7 @@ void reset_hdlr( void ){
 }
 
 /*
-Entry conditions for running the bootloader or user code.
+Entry conditions for running the loader or user code.
 Blocks forever waiting for a command on the serial port.
 */
 inline void boot_entry( void ){
@@ -63,7 +83,7 @@ inline void boot_entry( void ){
         status_Fast_LED();
 
         if( cmd == 'b' ){                          //If boot intent is to bootload (lowercase 'b' was sent)
-            bootloader();                                //Branch to bootloader
+            loader();                                //Branch to bootloader
             debug_Boot_Finished();
             return;
         }

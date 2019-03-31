@@ -1,6 +1,9 @@
 #include "BlueOS_status.h"
 #include "BlueOS_registers.h"
 
+void status_Startup( void ){
+}
+
 void status_Fast_LED( void ){
     #ifdef MAPLE_MINI
         reg( GPIOB_BSRR ) |= (uint16_t)0x0002;

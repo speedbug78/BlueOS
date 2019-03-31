@@ -1,9 +1,12 @@
 #ifndef STM32F103_REGS
 #define STM32F103_REGS
 
-#define SCB_CPUID       0xE000ED00
-#define SCB_ICSR        0xE000ED04
-#define SCB_VTOR        0xE000ED08
+/***
+ * Cortex M3 Registers
+***/
+#define SCB_CPUID       0xE000ED00  //Processor identification
+#define SCB_ICSR        0xE000ED04  //PendSV and Systick interrupt control
+#define SCB_VTOR        0xE000ED08  //Vector table relocation
 #define SCB_AIRCR       0xE000ED0C
 #define SCB_SCR         0xE000ED10
 #define SCB_CCR         0xE000ED14

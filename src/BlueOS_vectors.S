@@ -20,8 +20,8 @@
     .word   hold_hdlr               //System call handler
     .word   hold_hdlr               //Debug monitor handler
     .word   0x00000000
-    .word   hold_hdlr               //Task switch handler
-    .word   hold_hdlr               //Timer tick handler
+    .word   switcher_Handler        //Task switch handler
+    .word   sysTick_Handler         //Timer tick handler
 
 #ifdef STM32F10X_MD
     .word   hold_hdlr               //  window_watchdog_hdlr
@@ -100,8 +100,8 @@
     .word   sc_hdlr                 //System call handler
     .word   hold_hdlr               //Debug monitor handler
     .word   0x00000000
-    .word   hold_hdlr               //Task switch handler
-    .word   hold_hdlr               //Timer tick handler
+    .word   switcher_Handler        //Task switch handler
+    .word   sysTick_Handler         //Timer tick handler
 
 #ifdef STM32F10X_MD
     .word   hold_hdlr               //  window_watchdog_hdlr
