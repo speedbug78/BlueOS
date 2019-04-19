@@ -18,9 +18,9 @@ detect_indent_width=false
 indent_mode=2
 
 [project]
-name=ECM_Uno
-base_path=/home/daniel/Code/ECM_Uno
-description=ECM for 1 cylinder engines
+name=BlueOS
+base_path=/home/daniel/Code/BlueOS
+description=Pre-Allocated RTOS
 file_patterns=
 
 [long line marker]
@@ -29,26 +29,28 @@ long_line_column=72
 
 [files]
 current_page=15
-FILE_NAME_0=2573;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_startup.c;0;4
-FILE_NAME_1=623;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_status.c;0;4
-FILE_NAME_2=420;ASM;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_jump.S;0;4
-FILE_NAME_3=251;ASM;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_vectors.S;0;4
-FILE_NAME_4=61;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_debug_messages.h;0;4
-FILE_NAME_5=40;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_registers.h;0;4
-FILE_NAME_6=318;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_startup.h;0;4
-FILE_NAME_7=136;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_status.h;0;4
-FILE_NAME_8=895;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FSTM32F103_Regs.h;0;4
-FILE_NAME_9=29;Make;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FMakefile;0;4
-FILE_NAME_10=73;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_console.h;0;4
-FILE_NAME_11=2078;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_console.c;0;4
-FILE_NAME_12=918;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_systick.c;0;4
-FILE_NAME_13=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_systick.h;0;4
-FILE_NAME_14=177;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_types.h;0;4
-FILE_NAME_15=240;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_switcher.c;0;4
-FILE_NAME_16=1696;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_loader.c;0;4
-FILE_NAME_17=186;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_loader.h;0;4
-FILE_NAME_18=79;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_switcher.h;0;4
-FILE_NAME_19=0;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FBlueOS_linker.ld;0;4
+FILE_NAME_0=663;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_startup.c;0;4
+FILE_NAME_1=101;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_status.c;0;4
+FILE_NAME_2=40;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_registers.h;0;4
+FILE_NAME_3=101;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_startup.h;0;4
+FILE_NAME_4=136;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_status.h;0;4
+FILE_NAME_5=895;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FSTM32F103_Regs.h;0;4
+FILE_NAME_6=3426;Make;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FMakefile;0;4
+FILE_NAME_7=283;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_console.h;0;4
+FILE_NAME_8=2713;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_console.c;0;4
+FILE_NAME_9=2886;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_switcher.c;0;4
+FILE_NAME_10=1696;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_loader.c;0;4
+FILE_NAME_11=179;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_loader.h;0;4
+FILE_NAME_12=256;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_switcher.h;0;4
+FILE_NAME_13=726;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FBlueOS_linker.ld;0;4
+FILE_NAME_14=970;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_IO.c;0;4
+FILE_NAME_15=3074;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_clocks.c;0;4
+FILE_NAME_16=0;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fbin%2FBlueOS.lst;0;4
+FILE_NAME_17=670;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fbin%2FBlueOS.S;0;4
+FILE_NAME_18=0;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FBlueOS.S;0;4
+FILE_NAME_19=1029;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_vectors.c;0;4
+FILE_NAME_20=304;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_clocks.h;0;4
+FILE_NAME_21=275;Sh;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FFlash_STM32.sh;0;4
 
 [VTE]
 last_dir=/home/daniel

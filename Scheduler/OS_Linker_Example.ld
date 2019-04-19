@@ -29,36 +29,49 @@ __OS_F_Length = 0x1400;
 
 /*OS RAM address*/
 __RAM_Bottom    = 0x20000000;
-__RAM_Top       = 0x200013FF;
-__RAM_Length    = 0x1400;
+__RAM_Top       = 0x200007FF;
+__RAM_Length    = 0x0800;
 
 /*OS Stack location in RAM*/
 __StackTop      = 0x200007FF;
 
+MEMORY{
+    CONFIG_FLASH        ( rx )  : ORIGIN = 0x08000000, LENGTH = 1K
+    OS_FLASH            ( rx )  : ORIGIN = 0x08000400, LENGTH = 5K
+    OS_RAM              ( rwx ) : ORIGIN = 0x20000000, LENGTH = 2K
+}
+
 SECTIONS{
-    .text __Config_F_Bottom : {
+    . = ORIGIN( CONFIG_FLASH );
+
+    .config_flash : {
         . = ALIGN( 4 );
-        __config_start = .;
+        __config_start = .;                           /*Pointer to start of programmed config flash*/
         KEEP( *( .vector_table ))
         KEEP( *( .schedule_table ))
         KEEP( *( .task_table))
-        __config_end = .;
-        . = ALIGN( 0x0400 );    /*Align on memory block boundry*/
+        __config_end = .;                             /*Pointer to end of programmed config flash*/
+    } > CONFIG_FLASH
+
+    . = ORIGIN( OS_FLASH );
+
+    .text : {
+        . = ALIGN( 4 );
         __os_start = .;
         *( .text* )
         *( .rodata* )
         . = ALIGN( 4 );
         __os_end = .;
-    }
+    } > OS_FLASH
 
-    .data 0x20000000 : AT( ADDR( .text) + SIZEOF( .text )){    /*AT tells the linker where in flash to put .data (at the end of .text).  Otherwise initial variable values would be lost*/
+    .data : AT( ADDR( .text) + SIZEOF( .text )){    /*AT tells the linker where in flash to put .data (at the end of .text).  Otherwise initial variable values would be lost*/
         . = ALIGN( 4 );
         *( .data* )
         . = ALIGN( 4 );
-    }
+    } > OS_RAM
 
-    .bss 0x20000000 : {
+    .bss : {
         *( .bss* )
         *( COMMON )
-    }
+    } > OS_RAM
 }

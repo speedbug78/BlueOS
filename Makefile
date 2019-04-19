@@ -1,7 +1,9 @@
 #Output file name
-OUTFILE  = main
+OUTFILE  = BlueOS
 #Linker script
 LDSCRIPT = BlueOS_linker.ld
+#Map File
+MAPFILE = BlueOS_linker.map
 #Directories to find included files
 INCLUDE  =  -I./inc
 #Additional link libraries
@@ -22,6 +24,8 @@ AS=$(CROSS_COMPILE)as
 OC=$(CROSS_COMPILE)objcopy
 OD=$(CROSS_COMPILE)objdump
 SZ=$(CROSS_COMPILE)size
+FL=$(shell which st-flash)
+SR=$(shell which minicom)
 
 #Compiler Flags
 CFLAGS = -c -fno-common   \
@@ -38,7 +42,8 @@ CFLAGS = -c -fno-common   \
 
 #Linker Flags
 LDFLAGS	= -O, --gc-sections \
-	-T $(LDSCRIPT)          \
+	-T $(LDSCRIPT)			\
+	-Map $(BLDIR)/$(MAPFILE)  \
 	-no-startup -nostdlib
 
 #Object Copy Flags
@@ -65,6 +70,27 @@ clean:
 	-find . -name '*.bin' -exec rm {} \;
 	-find . -name '*.hex' -exec rm {} \;
 	-find . -name '*.map' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.o'   -exec rm {} \;
+	-find . -name '$(BLDIR)\*.elf' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.lst' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.out' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.bin' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.hex' -exec rm {} \;
+	-find . -name '$(BLDIR)\*.map' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.o'   -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.elf' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.lst' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.out' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.bin' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.hex' -exec rm {} \;
+	-find . -name '$(SRCDIR)\*.map' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.o'   -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.elf' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.lst' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.out' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.bin' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.hex' -exec rm {} \;
+	-find . -name '$(OUTDIR)\*.map' -exec rm {} \;
 
 $(TARGET).list: $(TARGET).elf
 	@echo "  Dump $(TARGET).elf to $(TARGET).list"
@@ -93,3 +119,17 @@ $(BLDIR)/%.o: $(SRCDIR)/%.S
 $(BLDIR)/%.o: $(SRCDIR)/%.s
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
+
+flash: $(TARGET).bin
+	@printf "  FLASH  $<\n"
+	$(FL) --reset write $(TARGET).bin 0x08000000
+
+serial:
+	@printf "  SERIAL $<\n"
+	$(SR) -D /dev/ttyUSB0 -b 115200
+
+#Dump some of Flash into file
+#st-flash --reset read Flash_Dump.hex 0x08000000 0x08000800
+
+# Dissasembly of .bin file (or Flash dump?)
+# arm-none-eabi-objdump -D -bbinary -marm bin/BlueOS.bin -Mforce-thumb > bin/BlueOS.S

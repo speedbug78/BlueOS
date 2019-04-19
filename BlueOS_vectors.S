@@ -7,7 +7,7 @@
     .section ".vector_table"
 #ifndef BOS_DEBUG
     .word   __StackTop              //Top of stack as defined in the linker file
-    .word   reset_hdlr              //Reset handler
+    .word   os_entry                //Reset handler
     .word   hold_hdlr               //Non mask handler
     .word   hold_hdlr               //Hard fault handler
     .word   hold_hdlr               //Memory management handler
@@ -87,7 +87,7 @@
 #endif
 #else
     .word   __StackTop              //Top of stack as defined in the linker file
-    .word   reset_hdlr              //Reset handler
+    .word   os_entry                //Reset handler
     .word   hold_hdlr               //Non mask handler
     .word   hf_hdlr                 //Hard fault handler
     .word   mm_hdlr                 //Memory management handler

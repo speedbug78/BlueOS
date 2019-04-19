@@ -1,7 +1,7 @@
 #ifndef BOS_SETUP
 #define BOS_SETUP
 
-#include "BlueOS_types.h"
+#include "BlueOS_defines.h"
 
 //Macro to simplify register access
 #define reg(x)          (*(volatile uint32_t*)(x))

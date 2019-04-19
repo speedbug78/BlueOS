@@ -1,34 +1,45 @@
 #include "BlueOS_status.h"
 #include "BlueOS_registers.h"
+#include "BlueOS_console.h"
+#include "BlueOS_clocks.h"
+#include "BlueOS_IO.h"
+
+static char*    Last_Error;
+static uint8_t  Led_On;
+static uint32_t Led_Time;
+static uint32_t Led_Wait_Time;
 
 void status_Startup( void ){
+    Last_Error = "\nNo Error";
+    Led_On = 0;
+    Led_Time = clocks_sysTime();
+    Led_Wait_Time = 10000;          //In time ticks (.1 milliseconds)
 }
 
-void status_Fast_LED( void ){
-    #ifdef MAPLE_MINI
-        reg( GPIOB_BSRR ) |= (uint16_t)0x0002;
-        for( uint16_t i=0; i<0xFFFF; i++ ){__asm__("");};
-        reg( GPIOB_BRR ) |= (uint16_t)0x0002;
-        for( uint16_t i=0; i<0xFFFF; i++ ){__asm__("");};
-    #endif
-    #ifdef BLUE_PILL
-        reg( GPIOC_BSRR ) |= (uint16_t)0x2000;
-        for( uint16_t i=0; i<0xFFFF; i++ ){__asm__("");};
-        reg( GPIOC_BRR ) |= (uint16_t)0x2000;
-        for( uint16_t i=0; i<0xFFFF; i++ ){__asm__("");};
-    #endif
+void status_LED_Task( void ){
+
+    if( clocks_sysTime() >= ( Led_Time + Led_Wait_Time )){
+        Led_Time = clocks_sysTime();
+        if( Led_On ){
+            reg( LED_PORT ) |= IO_RESET( LED_PIN );
+            Led_On = 0;
+        }
+        else{
+            reg( LED_PORT ) |= LED_PIN;
+            Led_On = 1;
+        }
+    }
 }
 
-void status_Init( void ){
-    #ifdef MAPLE_MINI
-        //Configure PB1 as pp output (Maple Mini only)
-        reg( GPIOB_CRL )   &= (uint32_t)0xFFFFFF0F;                   //Reset PB1 settings
-        reg( GPIOB_CRL )   |= (uint32_t)0x00000020;                   //PB1 general purpose output, push pull, 2Mhz
-    #endif
+void status_Set_Led_wait( uint32_t wait_time ){
+    Led_Wait_Time = wait_time;
+}
 
-    #ifdef BLUE_PILL
-        //Configure PC13 as pp output (Blue Pill only)
-        reg( GPIOC_CRH )   &= (uint32_t)0xFF0FFFFF;                   //Reset PC13 settings
-        reg( GPIOC_CRH )   |= (uint32_t)0x00200000;                   //PC13 general purpose output, push pull, 2Mhz
-    #endif
+void status_Set_Error( char* s ){
+    send_Str( "\nError Set" );
+    Last_Error = s;
+}
+
+void status_Show_Error( void ){
+    send_Str( Last_Error );
 }

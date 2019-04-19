@@ -1,53 +1,54 @@
 #include "BlueOS_loader.h"
 #include "BlueOS_registers.h"
-#include "BlueOS_debug_messages.h"
+#include "BlueOS_utilities.h"
+#include "BlueOS_console.h"
+#include "BlueOS_clocks.h"
 
-static void loader_Startup( void );
+static uint32_t Task_Top;
+static uint32_t Task_Bottom;
+
+static void erase_Flash( uint32_t address, uint32_t len );
+static void unlock_Flash( void );
+static void lock_Flash( void );
+static void wait_Flash( void );
+static void get_Ihex( void );
+static void write_Flash ( uint16_t data, uint32_t address );
+//static void verify_Load( void );
 
 void loader( void ){
-    send_Str( BOOTLOAD_BANNER );                                   //Display the loader banner and tell the user we are erasing flash
+    send_Str( LOADER_BANNER );                                      //Display the loader banner and tell the user we are erasing flash
 
-    //Configure processor for internal flash writing
-    loader_Startup();
+    disable_irq();                                                  //Turn interrupts off
+
+    clocks_Safe_sysClock();                                         //Set system clock to safe speed
 
     //Erase Flash
-    erase_Flash();                                          //If erase_Flash doesn't return 0, there is an error.
+    erase_Flash( Task_Bottom, ( Task_Top - Task_Bottom ));
 
-    debug_Hex_Load();                                               //Tell user we are ready to load a HEX file.
+    send_Str( "\nPlease send HEX file" );                             //Tell user we are ready to load a HEX file.
 
-    get_Ihex();                                            //Receive HEX file and write to flash.                                                     //Return no errors
-}
+    get_Ihex();                                                     //Receive HEX file and write to flash.
 
-static void loader_Startup( void ){
-    //Save clock state
+    clocks_Start_sysClock();                                        //Restore Clock State
 
-    //Configure Clock to 8MHz HSI
-    reg( RCC_CR )      |= (uint32_t)0x00000001;                 //Reset RCC clock to default HSI (don't change HSI trim)
-    reg( RCC_CFGR )    &= (uint32_t)0xF0FF0000;                 //Set HSI as clock, not divided for AHB, APB1 and APB2.  /2 for ADC.  No clock output
-    reg( RCC_CR )      &= (uint32_t)0xFEF6FFFF;                 //Turn off PLL, HSE and Clock security
-    reg( RCC_CR )      &= (uint32_t)0xFFFBFFFF;                 //HSE not bypassed
-    reg( RCC_CFGR )    &= (uint32_t)0xFF80FFFF;                 //Reset PLL and USB OTG values
-    reg( RCC_CIR )      = (uint32_t)0x009F0000;                 //Clear interrupt flags for clock security and PLL, HSE, HSI, LSE and LSI ready
-
-    //Configure Flash
-    reg( FLASH_ACR )    = (uint32_t)0x00000030;                 //18? Reset state of flash. 0 wait states (HSI is 8Mhz), prefetch buffer enabled.
+    enable_irq();                                                   //Turn interrupts back on
 }
 
 //Erase all of the user flash (non-bootloader flash) in the processor.
-void erase_Flash( void ){
-    uint32_t p, a;
+void erase_Flash( uint32_t address, uint32_t len ){
+    uint32_t p, w;
     unlock_Flash();
     wait_Flash();
     reg( FLASH_CR ) &= (uint16_t)0xFFFE;                            //Clear programming bit.  Somehow it is set when we get here
-    for( p = link_val( __User_F_Bottom ); p < link_val( __User_F_Top ); p += 0x00000400 ){  //Increment page
+    for( p = link_val( address ); p < link_val( address + len ); p += 0x00000400 ){  //Increment page
             reg( FLASH_CR ) |= (uint16_t)0x0002;                    //Set page erase bit
             reg( FLASH_ADR ) = p;                                   //Load page address to be erased
             reg( FLASH_CR ) |= (uint16_t)0x0040;                    //Set flash start bit
             wait_Flash();                                           //Wait for page to erase
-            for( a = 0; a < 0x0400; a += 0x04 ){                    //Loop through each word of the page
-                if( reg( p + a ) != (uint32_t)0xFFFFFFFF ){         //Check that the word was erased
-                    debug_Erase_Error();                                        //Tell the user there was a flash error.
-                    while(1);//return p + a;                                   //If a word isn't erased, return page address
+            for( w = 0; w < 0x0400; w += 0x04 ){                    //Loop through each word of the page
+                if( reg( p + w ) != (uint32_t)0xFFFFFFFF ){         //Check that the word was erased
+                    send_Str( "\nFlash Error" );                                        //Tell the user there was a flash error.
+                    while(1);//return p + w;                                   //If a word isn't erased, return page address
                 }
             }
             send_Char( '.' );                                       //Print Progress "."
@@ -117,7 +118,7 @@ void get_Ihex( void ){
 
         checksum = char_Byte();
         if( !( checksum + line_datasum )){                //Verify line checksum
-            debug_Invalid_Checksum();
+            send_Str( "\nInvalid Checksum" );
             send_Byte( line_datasum );
             send_Char( ' ' );
             send_Byte( checksum );
@@ -165,7 +166,7 @@ void get_Ihex( void ){
                 break;
 
             default:                                                 //Error, we have an invalid record type
-                debug_Invalid_Record();
+                send_Str( "\nInvalid Record" );
                 the_end = 3;                             //Return the invalid record
                 break;
         }
@@ -181,8 +182,8 @@ void get_Ihex( void ){
 //Write data to internal flash
 inline void write_Flash ( uint16_t data, uint32_t address ){
     uint32_t verify = 0x00000000;
-    if(( address < link_val( __User_F_Bottom )) || ( address > link_val( __User_F_Top ))){    //Check if write address is out of range.
-        debug_Invalid_Address();
+    if(( address < link_val( Task_Bottom )) || ( address > link_val( Task_Top ))){    //Check if write address is out of range.
+        send_Str( "\nInvalid Address" );
         while(1);
     }
     wait_Flash();
@@ -190,7 +191,9 @@ inline void write_Flash ( uint16_t data, uint32_t address ){
 
     verify = *(volatile uint16_t*)address;                              //Verify that data was written properly
     if( verify != data){
-        debug_Write_Verify_Error();
+        send_Str( "\nWrite verify fail" );
         while(1);
     }
 }
+
+
