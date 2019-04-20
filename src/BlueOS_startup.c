@@ -60,10 +60,12 @@ Vector handler to hold the processor in an infinite loop
 void hold_hdlr( void ){
     while(1);
 }
-/*
-The rest of these handlers are only in the vector table if BOS_DEBUG is defined.
-See BlueOS_vectors.S
-*/
+
+void nm_hdlr( void ){
+    send_Char( 'n' );
+    while(1);
+}
+
 void hf_hdlr( void ){
     send_Char( 'h' );
     while(1);
@@ -86,5 +88,10 @@ void uf_hdlr( void ){
 
 void sc_hdlr( void ){
     send_Char( 's' );
+    while(1);
+}
+
+void dm_hdlr( void ){
+    send_Char( 'd' );
     while(1);
 }

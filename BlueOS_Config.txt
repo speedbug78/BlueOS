@@ -1,8 +1,0 @@
-Clock: HSE 8000000
-Console: USART1 STD
-
-App:
-Number	Name	Flash Allocation	Ram Allocation
-
-Schedule:
-App Number	Ticks to Run

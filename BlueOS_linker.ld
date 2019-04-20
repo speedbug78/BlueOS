@@ -40,7 +40,9 @@ SECTIONS{
         . = ALIGN( 4 );
         __config_start = .;
         KEEP( *( .vector_table ))
+        . = 0x0150;
         KEEP( *( .schedule_table ))
+        . = 0x0360;
         KEEP( *( .task_table))
         __config_end = .;
         . = ALIGN( 0x0400 );    /*Align on memory block boundry*/

@@ -24,6 +24,9 @@ Discarded input sections
  .text          0x0000000000000000        0x0 obj/BlueOS_IO.o
  .data          0x0000000000000000        0x0 obj/BlueOS_IO.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_IO.o
+ .text          0x0000000000000000        0x0 obj/BlueOS_config.o
+ .data          0x0000000000000000        0x0 obj/BlueOS_config.o
+ .bss           0x0000000000000000        0x0 obj/BlueOS_config.o
  .text          0x0000000000000000        0x0 obj/BlueOS_console.o
  .data          0x0000000000000000        0x0 obj/BlueOS_console.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_console.o
@@ -53,14 +56,8 @@ Discarded input sections
  .text          0x0000000000000000        0x0 obj/BlueOS_startup.o
  .data          0x0000000000000000        0x0 obj/BlueOS_startup.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_startup.o
- .text.hf_hdlr  0x0000000000000000        0xa obj/BlueOS_startup.o
- .text.mm_hdlr  0x0000000000000000        0xa obj/BlueOS_startup.o
- .text.bf_hdlr  0x0000000000000000        0xa obj/BlueOS_startup.o
- .text.uf_hdlr  0x0000000000000000        0xa obj/BlueOS_startup.o
- .text.sc_hdlr  0x0000000000000000        0xa obj/BlueOS_startup.o
- .text          0x0000000000000000        0x0 obj/BlueOS_vectors.o
- .data          0x0000000000000000        0x0 obj/BlueOS_vectors.o
- .bss           0x0000000000000000        0x0 obj/BlueOS_vectors.o
+ .text.hold_hdlr
+                0x0000000000000000        0x2 obj/BlueOS_startup.o
  .text          0x0000000000000000        0x0 obj/BlueOS_clocks.o
  .data          0x0000000000000000        0x0 obj/BlueOS_clocks.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_clocks.o
@@ -95,17 +92,26 @@ Linker script and memory map
                 0x0000000000001400                __RAM_Length = 0x1400
                 0x00000000200007ff                __StackTop = 0x200007ff
 
-.text           0x0000000008000000      0x8d8
+.text           0x0000000008000000      0x91c
                 0x0000000008000000                . = ALIGN (0x4)
                 0x0000000008000000                __config_start = .
  *(.vector_table)
- .vector_table  0x0000000008000000       0x40 obj/BlueOS_vectors.o
+ .vector_table  0x0000000008000000       0x40 obj/BlueOS_config.o
                 0x0000000008000000                vectorTable
+                0x0000000000000150                . = 0x150
+ *fill*         0x0000000008000040      0x110 
  *(.schedule_table)
+ .schedule_table
+                0x0000000008000150       0x54 obj/BlueOS_config.o
+                0x0000000008000150                scheduleTable
+                0x0000000000000360                . = 0x360
+ *fill*         0x00000000080001a4      0x1bc 
  *(.task_table)
-                0x0000000008000040                __config_end = .
+ .task_table    0x0000000008000360       0x30 obj/BlueOS_config.o
+                0x0000000008000360                taskTable
+                0x0000000008000390                __config_end = .
                 0x0000000008000400                . = ALIGN (0x400)
- *fill*         0x0000000008000040      0x3c0 
+ *fill*         0x0000000008000390       0x70 
                 0x0000000008000400                __os_start = .
  *(.text*)
  .text.io_Startup
@@ -145,66 +151,77 @@ Linker script and memory map
  .text.os_entry
                 0x0000000008000688       0x40 obj/BlueOS_startup.o
                 0x0000000008000688                os_entry
- .text.hold_hdlr
-                0x00000000080006c8        0x2 obj/BlueOS_startup.o
-                0x00000000080006c8                hold_hdlr
- *fill*         0x00000000080006ca        0x2 
+ .text.nm_hdlr  0x00000000080006c8        0xa obj/BlueOS_startup.o
+                0x00000000080006c8                nm_hdlr
+ .text.hf_hdlr  0x00000000080006d2        0xa obj/BlueOS_startup.o
+                0x00000000080006d2                hf_hdlr
+ .text.mm_hdlr  0x00000000080006dc        0xa obj/BlueOS_startup.o
+                0x00000000080006dc                mm_hdlr
+ .text.bf_hdlr  0x00000000080006e6        0xa obj/BlueOS_startup.o
+                0x00000000080006e6                bf_hdlr
+ .text.uf_hdlr  0x00000000080006f0        0xa obj/BlueOS_startup.o
+                0x00000000080006f0                uf_hdlr
+ .text.sc_hdlr  0x00000000080006fa        0xa obj/BlueOS_startup.o
+                0x00000000080006fa                sc_hdlr
+ .text.dm_hdlr  0x0000000008000704        0xa obj/BlueOS_startup.o
+                0x0000000008000704                dm_hdlr
+ *fill*         0x000000000800070e        0x2 
  .text.clocks_Safe_sysClock
-                0x00000000080006cc       0x50 obj/BlueOS_clocks.o
-                0x00000000080006cc                clocks_Safe_sysClock
+                0x0000000008000710       0x50 obj/BlueOS_clocks.o
+                0x0000000008000710                clocks_Safe_sysClock
  .text.clocks_Start_sysClock
-                0x000000000800071c       0xb4 obj/BlueOS_clocks.o
-                0x000000000800071c                clocks_Start_sysClock
+                0x0000000008000760       0xb4 obj/BlueOS_clocks.o
+                0x0000000008000760                clocks_Start_sysClock
  .text.clocks_Start_periphClocks
-                0x00000000080007d0       0x14 obj/BlueOS_clocks.o
-                0x00000000080007d0                clocks_Start_periphClocks
+                0x0000000008000814       0x14 obj/BlueOS_clocks.o
+                0x0000000008000814                clocks_Start_periphClocks
  .text.clocks_Start_sysTick
-                0x00000000080007e4       0x38 obj/BlueOS_clocks.o
-                0x00000000080007e4                clocks_Start_sysTick
+                0x0000000008000828       0x38 obj/BlueOS_clocks.o
+                0x0000000008000828                clocks_Start_sysTick
  .text.sysTick_Handler
-                0x000000000800081c       0x34 obj/BlueOS_clocks.o
-                0x000000000800081c                sysTick_Handler
+                0x0000000008000860       0x34 obj/BlueOS_clocks.o
+                0x0000000008000860                sysTick_Handler
  .text.clocks_sysTime
-                0x0000000008000850        0xc obj/BlueOS_clocks.o
-                0x0000000008000850                clocks_sysTime
+                0x0000000008000894        0xc obj/BlueOS_clocks.o
+                0x0000000008000894                clocks_sysTime
  *(.rodata*)
  .rodata.str1.1
-                0x000000000800085c       0x20 obj/BlueOS_console.o
+                0x00000000080008a0       0x20 obj/BlueOS_console.o
  .rodata.str1.1
-                0x000000000800087c       0x15 obj/BlueOS_status.o
+                0x00000000080008c0       0x15 obj/BlueOS_status.o
  .rodata.str1.1
-                0x0000000008000891       0x10 obj/BlueOS_startup.o
+                0x00000000080008d5       0x10 obj/BlueOS_startup.o
                                          0x1b (size before relaxing)
  .rodata.str1.1
-                0x00000000080008a1       0x37 obj/BlueOS_clocks.o
-                0x00000000080008d8                . = ALIGN (0x4)
-                0x00000000080008d8                __os_end = .
+                0x00000000080008e5       0x37 obj/BlueOS_clocks.o
+                0x000000000800091c                . = ALIGN (0x4)
+                0x000000000800091c                __os_end = .
 
-.glue_7         0x00000000080008d8        0x0
- .glue_7        0x00000000080008d8        0x0 linker stubs
+.glue_7         0x000000000800091c        0x0
+ .glue_7        0x000000000800091c        0x0 linker stubs
 
-.glue_7t        0x00000000080008d8        0x0
- .glue_7t       0x00000000080008d8        0x0 linker stubs
+.glue_7t        0x000000000800091c        0x0
+ .glue_7t       0x000000000800091c        0x0 linker stubs
 
-.vfp11_veneer   0x00000000080008d8        0x0
- .vfp11_veneer  0x00000000080008d8        0x0 linker stubs
+.vfp11_veneer   0x000000000800091c        0x0
+ .vfp11_veneer  0x000000000800091c        0x0 linker stubs
 
-.v4_bx          0x00000000080008d8        0x0
- .v4_bx         0x00000000080008d8        0x0 linker stubs
+.v4_bx          0x000000000800091c        0x0
+ .v4_bx         0x000000000800091c        0x0 linker stubs
 
-.iplt           0x00000000080008d8        0x0
- .iplt          0x00000000080008d8        0x0 obj/BlueOS_loader.o
+.iplt           0x000000000800091c        0x0
+ .iplt          0x000000000800091c        0x0 obj/BlueOS_loader.o
 
-.rel.dyn        0x00000000080008d8        0x0
- .rel.iplt      0x00000000080008d8        0x0 obj/BlueOS_loader.o
+.rel.dyn        0x000000000800091c        0x0
+ .rel.iplt      0x000000000800091c        0x0 obj/BlueOS_loader.o
 
-.data           0x0000000020000000        0x0 load address 0x00000000080008d8
+.data           0x0000000020000000        0x0 load address 0x000000000800091c
                 0x0000000020000000                . = ALIGN (0x4)
  *(.data*)
                 0x0000000020000000                . = ALIGN (0x4)
 
-.igot.plt       0x00000000080008d8        0x0 load address 0x0000000020000000
- .igot.plt      0x00000000080008d8        0x0 obj/BlueOS_loader.o
+.igot.plt       0x000000000800091c        0x0 load address 0x0000000020000000
+ .igot.plt      0x000000000800091c        0x0 obj/BlueOS_loader.o
 
 .bss            0x0000000020000000      0x2e0
  *(.bss*)
@@ -242,22 +259,22 @@ Linker script and memory map
  *(COMMON)
 LOAD obj/BlueOS_loader.o
 LOAD obj/BlueOS_IO.o
+LOAD obj/BlueOS_config.o
 LOAD obj/BlueOS_console.o
 LOAD obj/BlueOS_status.o
 LOAD obj/BlueOS_switcher.o
 LOAD obj/BlueOS_startup.o
-LOAD obj/BlueOS_vectors.o
 LOAD obj/BlueOS_clocks.o
 OUTPUT(bin/BlueOS.elf elf32-littlearm)
 
 .comment        0x0000000000000000       0x38
  .comment       0x0000000000000000       0x38 obj/BlueOS_IO.o
                                          0x39 (size before relaxing)
+ .comment       0x0000000000000038       0x39 obj/BlueOS_config.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_console.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_status.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_switcher.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_startup.o
- .comment       0x0000000000000038       0x39 obj/BlueOS_vectors.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_clocks.o
 
 .ARM.attributes
@@ -265,14 +282,14 @@ OUTPUT(bin/BlueOS.elf elf32-littlearm)
  .ARM.attributes
                 0x0000000000000000       0x33 obj/BlueOS_IO.o
  .ARM.attributes
-                0x0000000000000033       0x33 obj/BlueOS_console.o
+                0x0000000000000033       0x33 obj/BlueOS_config.o
  .ARM.attributes
-                0x0000000000000066       0x33 obj/BlueOS_status.o
+                0x0000000000000066       0x33 obj/BlueOS_console.o
  .ARM.attributes
-                0x0000000000000099       0x33 obj/BlueOS_switcher.o
+                0x0000000000000099       0x33 obj/BlueOS_status.o
  .ARM.attributes
-                0x00000000000000cc       0x33 obj/BlueOS_startup.o
+                0x00000000000000cc       0x33 obj/BlueOS_switcher.o
  .ARM.attributes
-                0x00000000000000ff       0x33 obj/BlueOS_vectors.o
+                0x00000000000000ff       0x33 obj/BlueOS_startup.o
  .ARM.attributes
                 0x0000000000000132       0x33 obj/BlueOS_clocks.o
