@@ -11,7 +11,6 @@ LDLIBS   =
 #-lm
 BLDIR = obj
 SRCDIR = src
-CFGDIR = config
 OUTDIR = bin
 TARGET = $(OUTDIR)/$(OUTFILE)
 
@@ -54,7 +53,7 @@ OCFLAGS = -Obinary
 ODFLAGS = -S
 
 #Generate list of source files
-SRCS := $(notdir $(wildcard src/*.c src/*.S src/*.s config/*.c))
+SRCS := $(notdir $(wildcard src/*.c src/*.S src/*.s))
 #Generate list of object files
 OBJS = $(addsuffix .o, $(basename $(SRCS)))
 
@@ -113,10 +112,6 @@ $(BLDIR)/%.o: $(SRCDIR)/%.c
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
 
-$(BLDIR)/%.o: $(CFGDIR)/%.c
-	@echo "  CC $<"
-	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
-
 $(BLDIR)/%.o: $(SRCDIR)/%.S
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
@@ -125,8 +120,7 @@ $(BLDIR)/%.o: $(SRCDIR)/%.s
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
 
-# $(TARGET).bin
-flash: clean all
+flash: $(TARGET).bin
 	@printf "  FLASH  $<\n"
 	$(FL) --reset write $(TARGET).bin 0x08000000
 

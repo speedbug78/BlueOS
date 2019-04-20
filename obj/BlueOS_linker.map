@@ -24,9 +24,6 @@ Discarded input sections
  .text          0x0000000000000000        0x0 obj/BlueOS_IO.o
  .data          0x0000000000000000        0x0 obj/BlueOS_IO.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_IO.o
- .text          0x0000000000000000        0x0 obj/BlueOS_config.o
- .data          0x0000000000000000        0x0 obj/BlueOS_config.o
- .bss           0x0000000000000000        0x0 obj/BlueOS_config.o
  .text          0x0000000000000000        0x0 obj/BlueOS_console.o
  .data          0x0000000000000000        0x0 obj/BlueOS_console.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_console.o
@@ -67,6 +64,9 @@ Discarded input sections
                 0x0000000000000000        0xc obj/BlueOS_clocks.o
  .text.sysTick_Stop_Task_Switching
                 0x0000000000000000        0xc obj/BlueOS_clocks.o
+ .text          0x0000000000000000        0x0 obj/BlueOS_config.o
+ .data          0x0000000000000000        0x0 obj/BlueOS_config.o
+ .bss           0x0000000000000000        0x0 obj/BlueOS_config.o
 
 Memory Configuration
 
@@ -259,37 +259,37 @@ Linker script and memory map
  *(COMMON)
 LOAD obj/BlueOS_loader.o
 LOAD obj/BlueOS_IO.o
-LOAD obj/BlueOS_config.o
 LOAD obj/BlueOS_console.o
 LOAD obj/BlueOS_status.o
 LOAD obj/BlueOS_switcher.o
 LOAD obj/BlueOS_startup.o
 LOAD obj/BlueOS_clocks.o
+LOAD obj/BlueOS_config.o
 OUTPUT(bin/BlueOS.elf elf32-littlearm)
 
 .comment        0x0000000000000000       0x38
  .comment       0x0000000000000000       0x38 obj/BlueOS_IO.o
                                          0x39 (size before relaxing)
- .comment       0x0000000000000038       0x39 obj/BlueOS_config.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_console.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_status.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_switcher.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_startup.o
  .comment       0x0000000000000038       0x39 obj/BlueOS_clocks.o
+ .comment       0x0000000000000038       0x39 obj/BlueOS_config.o
 
 .ARM.attributes
                 0x0000000000000000       0x33
  .ARM.attributes
                 0x0000000000000000       0x33 obj/BlueOS_IO.o
  .ARM.attributes
-                0x0000000000000033       0x33 obj/BlueOS_config.o
+                0x0000000000000033       0x33 obj/BlueOS_console.o
  .ARM.attributes
-                0x0000000000000066       0x33 obj/BlueOS_console.o
+                0x0000000000000066       0x33 obj/BlueOS_status.o
  .ARM.attributes
-                0x0000000000000099       0x33 obj/BlueOS_status.o
+                0x0000000000000099       0x33 obj/BlueOS_switcher.o
  .ARM.attributes
-                0x00000000000000cc       0x33 obj/BlueOS_switcher.o
+                0x00000000000000cc       0x33 obj/BlueOS_startup.o
  .ARM.attributes
-                0x00000000000000ff       0x33 obj/BlueOS_startup.o
+                0x00000000000000ff       0x33 obj/BlueOS_clocks.o
  .ARM.attributes
-                0x0000000000000132       0x33 obj/BlueOS_clocks.o
+                0x0000000000000132       0x33 obj/BlueOS_config.o
