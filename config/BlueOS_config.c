@@ -75,7 +75,7 @@ uint32_t* scheduleTable[] __attribute__ (( section ( ".schedule_table" ))) = {
 /* Create an array for the tasks */
 /*   Code Start Address   , Code Memory Length    , Ram Start Address     , Ram Length            , ID    */
 uint32_t* const taskTable[] __attribute__ (( section ( ".task_table" ))) = {
-    (uint32_t*) 0x08000800, (uint32_t*) 0x00001400, (uint32_t*) 0x20000000, (uint32_t*) 0x00000800, /*ID 0*/
+    (uint32_t*) 0x08000400, (uint32_t*) 0x00001400, (uint32_t*) 0x20000000, (uint32_t*) 0x00000800, /*ID 0*/
     (uint32_t*) 0x08001400, (uint32_t*) 0x00002800, (uint32_t*) 0x20000800, (uint32_t*) 0x00002000, /*ID 1*/
     (uint32_t*) 0x08004000, (uint32_t*) 0x0001C000, (uint32_t*) 0x20002800, (uint32_t*) 0x00002800, /*ID 2*/
 };
