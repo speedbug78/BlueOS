@@ -7,7 +7,7 @@ This code is being developed and tested on [Blue Pill](https://wiki.stm32duino.c
 
 
 
-###Code Structure
+### Code Structure
 
     / BlueOS (root folder)
     |----src  (Source files for BlueOS)
@@ -40,19 +40,19 @@ Task code is in the individual task directories
 
 Tools contains user aids to use and maintain the build system
 
-###Dependencies
+### Dependencies
 This software requires an ARM Cortex M3 toolchain to be installed and
 "findable", which generally means in your "PATH" environment variable.
 tools used begin with "arm-none-eabi-", e.g. arm-none-eabi-gcc.  After
 that you should be able to "cd" to the root director of the repository
 and run "make".
 
-###Memory Layout
+### Memory Layout
 BlueOS is statically allocated which makes finding code and debugging
 easier at the expense of full processor utilization.  The current layout
 is:
 
-####Flash:
+#### Flash:
 **Page 1 (1K starting at 0x08000000):**
 
  -  Allocated in BlueOS_linker.ld
@@ -69,23 +69,21 @@ Task Table | 160 Bytes|0x08000360
 
 **Item** | **Size** | **Address**
 --------------|-------------|--------------
-       OS      | 5k | 0x08000400
-       Task 1 | 10k | 0x08001400
-       Task 2 | 112k | 0x08004000
+OS      | 5k | 0x08000400
+Task 1 | 10k | 0x08001400
+Task 2 | 112k | 0x08004000
 
-####RAM:
+#### RAM:
 -  Allocated in the Task Table in BlueOS_config.c
 
-**Item**|**Size**|**Address**
------------|-----------|---------------
-OS|2k|0x20000000
-    |General RAM
-    |Stack
-Task 1|8k|0x20000800
-    |General RAM
-    |Stack
-Task 2|10k|0x20002800
-    |General RAM
-    |Stack
-
-
+|**Item**|**Size**|**Address**
+|-----------|-----------|---------------
+|__OS__|2k|0x20000000
+|- _General RAM_|\\/|
+|- _Stack_|/\\ |0x200007FF
+|__Task 1__|8k|0x20000800
+|- _General RAM_|\\/|
+|- _Stack_|/\\ |0x200027FF
+|__Task 2__|10k|0x20002800
+|- _General RAM_|\\/|
+|- _Stack_|/\\ |0x20004FFF
