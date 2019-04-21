@@ -1,0 +1,13 @@
+#ifndef BOS_CONFIG
+#define BOS_CONFIG
+
+//#define BYTES_PER_WORD          4
+
+#define NUMBER_OF_TASKS         3
+#define NUMBER_OF_TASK_DATA     4
+//#define TASK_TABLE_LENGTH       ( NUMBER_OF_TASKS * NUMBER_OF_TASK_DATA * BYTES_PER_WORD )
+
+#define SCHEDULE_SLOTS          21
+//#define SCHEDULE_TABLE_LENGTH   ( SCHEDULE_SLOTS * BYTES_PER_WORD )
+
+#endif

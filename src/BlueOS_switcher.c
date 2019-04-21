@@ -1,17 +1,10 @@
 #include "BlueOS_switcher.h"
 #include "BlueOS_utilities.h"
+#include "BlueOS_config.h"
+#include "BlueOS_console.h"
 
-//Create the empty schedule
-//Stores the order and time each task is supposed to run
-static volatile schedule_table_type schedule    [MAX_SCHEDULE_LEN];
-//Create the empty task table
-//Stores information about each task
-static volatile task_table_type     task_table  [MAX_NUM_TASKS];
-//Index to the schedule
 static volatile uint8_t current_task;
-//Number of schedule slots used
-static volatile uint8_t schedule_len;
-//Index for task_table
+
 static volatile uint8_t current_task_id;
 
 //Local Functions
@@ -20,16 +13,36 @@ static inline void load_psp( void );
 static inline void store_context( void );
 static inline void set_context( void );
 
+static uint32_t* task_Table_Index;
+static uint32_t* schedule_Table_Index;
+
+uint32_t* stack_Table[NUMBER_OF_TASKS];
+
+//Lots of pointers need to be checked in this code and the
+// stack_table isn't setup properly yet.
+
 void switcher_Startup( void ){
-    //Read and initialize schedule
-    //Read and initialize task table
+    uint8_t i;
 
-    schedule_len = 0;   //Read and set schedule_len
-    current_task = 0;
+    //Initialize schedule table index
+    schedule_Table_Index = (uint32_t*)SCHEDULE_TABLE_BEGIN;
 
-    current_task_id = schedule[current_task].task_id; //Set task_id
+    //Initialize task table index
+    task_Table_Index = (uint32_t*)TASK_TABLE_BEGIN;
+
+    //Initialize stack table
+    for( i = 0; i < NUMBER_OF_TASKS; i ++ ){
+        uint32_t ram_start, ram_length;
+        ram_start = *(task_Table_Index + ( 2 ) + ( NUMBER_OF_TASK_DATA * i ));
+        ram_length = *(task_Table_Index + ( 3 ) + ( NUMBER_OF_TASK_DATA * i ));
+
+        stack_Table[i] = (uint32_t*)( ram_start + ram_length );
+    }
+
+    current_task_id = *schedule_Table_Index & 0xFF000000;
+
+
 }
-
 
 void switcher_Handler( void ){
     disable_irq(); //Don't allow other interrupts to happen during context switching
@@ -45,14 +58,14 @@ void switcher_Handler( void ){
     }
 
     //Increment the current_task to the next one in the schedule
-    current_task ++;
+    schedule_Table_Index ++;
     //If we have finished this schedule iteration go back to the beginning
-    if( current_task >= schedule_len ){
-        current_task = 0;
+    if( schedule_Table_Index >= SCHEDULE_TABLE_END ){
+        schedule_Table_Index = (uint32_t*)SCHEDULE_TABLE_BEGIN;
     }
 
     //Update current_task_id with the new task
-    current_task_id = schedule[current_task].task_id;
+    current_task_id = *schedule_Table_Index & 0xFF000000;
 
     //Set new task's stack pointer according to ARM info center section 2.3.7
     if( current_task_id != 0 ){
@@ -76,7 +89,7 @@ static inline void store_psp( void ){
     void * sp;
 
     asm( "MRS %0, psp" : "=r"( sp ));   //Get the stack pointer from the psp into sp
-    task_table[current_task_id].task_sp = sp;
+    stack_Table[current_task_id] = sp;
     //Send stack pointer to debug to track this task
 }
 
@@ -84,7 +97,7 @@ static inline void store_psp( void ){
 static inline void load_psp( void ){
     void * sp;
 
-    sp = task_table[current_task_id].task_sp;
+    sp = stack_Table[current_task_id];
     asm( "MSR psp, %0" : "=r"( sp ));   //Place the stack pointer into the psp register
 }
 

@@ -9,6 +9,7 @@
 #include "BlueOS_console.h"
 #include "BlueOS_IO.h"
 #include "BlueOS_utilities.h"
+#include "BlueOS_switcher.h"
 
 /***
  * Vector handler that is called on processor reset
@@ -46,6 +47,8 @@ void os_entry( void ){
 
     io_Startup();
 
+    switcher_Startup();
+
     while(1){
         console_Task();
         status_LED_Task();
@@ -58,6 +61,7 @@ void os_entry( void ){
 Vector handler to hold the processor in an infinite loop
 */
 void hold_hdlr( void ){
+    send_Str( "\nHold Handler" );
     while(1);
 }
 
@@ -67,7 +71,7 @@ void nm_hdlr( void ){
 }
 
 void hf_hdlr( void ){
-    send_Char( 'h' );
+    send_Str( "\nHard Fault" );
     while(1);
 }
 

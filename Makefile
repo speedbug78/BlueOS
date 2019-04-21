@@ -5,7 +5,7 @@ LDSCRIPT = BlueOS_linker.ld
 #Map File
 MAPFILE = BlueOS_linker.map
 #Directories to find included files
-INCLUDE  =  -I./inc
+INCLUDE  =  -I./inc -I./config
 #Additional link libraries
 LDLIBS   =
 #-lm

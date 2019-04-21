@@ -48,13 +48,13 @@ Discarded input sections
  .text          0x0000000000000000        0x0 obj/BlueOS_switcher.o
  .data          0x0000000000000000        0x0 obj/BlueOS_switcher.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_switcher.o
- .text.switcher_Startup
-                0x0000000000000000       0x2c obj/BlueOS_switcher.o
+ .bss.current_task
+                0x0000000000000000        0x1 obj/BlueOS_switcher.o
  .text          0x0000000000000000        0x0 obj/BlueOS_startup.o
  .data          0x0000000000000000        0x0 obj/BlueOS_startup.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_startup.o
  .text.hold_hdlr
-                0x0000000000000000        0x2 obj/BlueOS_startup.o
+                0x0000000000000000       0x10 obj/BlueOS_startup.o
  .text          0x0000000000000000        0x0 obj/BlueOS_clocks.o
  .data          0x0000000000000000        0x0 obj/BlueOS_clocks.o
  .bss           0x0000000000000000        0x0 obj/BlueOS_clocks.o
@@ -92,26 +92,33 @@ Linker script and memory map
                 0x0000000000001400                __RAM_Length = 0x1400
                 0x00000000200007ff                __StackTop = 0x200007ff
 
-.text           0x0000000008000000      0x91c
+.text           0x0000000008000000      0x970
                 0x0000000008000000                . = ALIGN (0x4)
                 0x0000000008000000                __config_start = .
  *(.vector_table)
  .vector_table  0x0000000008000000       0x40 obj/BlueOS_config.o
                 0x0000000008000000                vectorTable
+ FILL mask 0xceaddead
                 0x0000000000000150                . = 0x150
- *fill*         0x0000000008000040      0x110 
+ *fill*         0x0000000008000040      0x110 ceaddead
+                0x0000000008000150                __schedule_table_begin = .
  *(.schedule_table)
  .schedule_table
                 0x0000000008000150       0x54 obj/BlueOS_config.o
                 0x0000000008000150                scheduleTable
+                0x00000000080001a4                __schedule_table_end = .
+ FILL mask 0xceaddead
                 0x0000000000000360                . = 0x360
- *fill*         0x00000000080001a4      0x1bc 
+ *fill*         0x00000000080001a4      0x1bc ceaddead
+                0x0000000008000360                __task_table_begin = .
  *(.task_table)
  .task_table    0x0000000008000360       0x30 obj/BlueOS_config.o
                 0x0000000008000360                taskTable
+                0x0000000008000390                __task_table_end = .
+ FILL mask 0xceaddead
                 0x0000000008000390                __config_end = .
                 0x0000000008000400                . = ALIGN (0x400)
- *fill*         0x0000000008000390       0x70 
+ *fill*         0x0000000008000390       0x70 ceaddead
                 0x0000000008000400                __os_start = .
  *(.text*)
  .text.io_Startup
@@ -123,7 +130,7 @@ Linker script and memory map
  .text.send_Str
                 0x0000000008000458       0x12 obj/BlueOS_console.o
                 0x0000000008000458                send_Str
- *fill*         0x000000000800046a        0x2 
+ *fill*         0x000000000800046a        0x2 ceaddead
  .text.console_Startup_72Mhz
                 0x000000000800046c       0x64 obj/BlueOS_console.o
                 0x000000000800046c                console_Startup_72Mhz
@@ -145,85 +152,90 @@ Linker script and memory map
  .text.status_Show_Error
                 0x00000000080005fc        0xc obj/BlueOS_status.o
                 0x00000000080005fc                status_Show_Error
+ .text.switcher_Startup
+                0x0000000008000608       0x48 obj/BlueOS_switcher.o
+                0x0000000008000608                switcher_Startup
  .text.switcher_Handler
-                0x0000000008000608       0x80 obj/BlueOS_switcher.o
-                0x0000000008000608                switcher_Handler
+                0x0000000008000650       0x64 obj/BlueOS_switcher.o
+                0x0000000008000650                switcher_Handler
  .text.os_entry
-                0x0000000008000688       0x40 obj/BlueOS_startup.o
-                0x0000000008000688                os_entry
- .text.nm_hdlr  0x00000000080006c8        0xa obj/BlueOS_startup.o
-                0x00000000080006c8                nm_hdlr
- .text.hf_hdlr  0x00000000080006d2        0xa obj/BlueOS_startup.o
-                0x00000000080006d2                hf_hdlr
- .text.mm_hdlr  0x00000000080006dc        0xa obj/BlueOS_startup.o
-                0x00000000080006dc                mm_hdlr
- .text.bf_hdlr  0x00000000080006e6        0xa obj/BlueOS_startup.o
-                0x00000000080006e6                bf_hdlr
- .text.uf_hdlr  0x00000000080006f0        0xa obj/BlueOS_startup.o
-                0x00000000080006f0                uf_hdlr
- .text.sc_hdlr  0x00000000080006fa        0xa obj/BlueOS_startup.o
-                0x00000000080006fa                sc_hdlr
- .text.dm_hdlr  0x0000000008000704        0xa obj/BlueOS_startup.o
-                0x0000000008000704                dm_hdlr
- *fill*         0x000000000800070e        0x2 
+                0x00000000080006b4       0x44 obj/BlueOS_startup.o
+                0x00000000080006b4                os_entry
+ .text.nm_hdlr  0x00000000080006f8        0xa obj/BlueOS_startup.o
+                0x00000000080006f8                nm_hdlr
+ *fill*         0x0000000008000702        0x2 ceaddead
+ .text.hf_hdlr  0x0000000008000704       0x10 obj/BlueOS_startup.o
+                0x0000000008000704                hf_hdlr
+ .text.mm_hdlr  0x0000000008000714        0xa obj/BlueOS_startup.o
+                0x0000000008000714                mm_hdlr
+ .text.bf_hdlr  0x000000000800071e        0xa obj/BlueOS_startup.o
+                0x000000000800071e                bf_hdlr
+ .text.uf_hdlr  0x0000000008000728        0xa obj/BlueOS_startup.o
+                0x0000000008000728                uf_hdlr
+ .text.sc_hdlr  0x0000000008000732        0xa obj/BlueOS_startup.o
+                0x0000000008000732                sc_hdlr
+ .text.dm_hdlr  0x000000000800073c        0xa obj/BlueOS_startup.o
+                0x000000000800073c                dm_hdlr
+ *fill*         0x0000000008000746        0x2 ceaddead
  .text.clocks_Safe_sysClock
-                0x0000000008000710       0x50 obj/BlueOS_clocks.o
-                0x0000000008000710                clocks_Safe_sysClock
+                0x0000000008000748       0x50 obj/BlueOS_clocks.o
+                0x0000000008000748                clocks_Safe_sysClock
  .text.clocks_Start_sysClock
-                0x0000000008000760       0xb4 obj/BlueOS_clocks.o
-                0x0000000008000760                clocks_Start_sysClock
+                0x0000000008000798       0xb4 obj/BlueOS_clocks.o
+                0x0000000008000798                clocks_Start_sysClock
  .text.clocks_Start_periphClocks
-                0x0000000008000814       0x14 obj/BlueOS_clocks.o
-                0x0000000008000814                clocks_Start_periphClocks
+                0x000000000800084c       0x14 obj/BlueOS_clocks.o
+                0x000000000800084c                clocks_Start_periphClocks
  .text.clocks_Start_sysTick
-                0x0000000008000828       0x38 obj/BlueOS_clocks.o
-                0x0000000008000828                clocks_Start_sysTick
+                0x0000000008000860       0x38 obj/BlueOS_clocks.o
+                0x0000000008000860                clocks_Start_sysTick
  .text.sysTick_Handler
-                0x0000000008000860       0x34 obj/BlueOS_clocks.o
-                0x0000000008000860                sysTick_Handler
+                0x0000000008000898       0x34 obj/BlueOS_clocks.o
+                0x0000000008000898                sysTick_Handler
  .text.clocks_sysTime
-                0x0000000008000894        0xc obj/BlueOS_clocks.o
-                0x0000000008000894                clocks_sysTime
+                0x00000000080008cc        0xc obj/BlueOS_clocks.o
+                0x00000000080008cc                clocks_sysTime
  *(.rodata*)
  .rodata.str1.1
-                0x00000000080008a0       0x20 obj/BlueOS_console.o
+                0x00000000080008d8       0x20 obj/BlueOS_console.o
  .rodata.str1.1
-                0x00000000080008c0       0x15 obj/BlueOS_status.o
+                0x00000000080008f8       0x15 obj/BlueOS_status.o
  .rodata.str1.1
-                0x00000000080008d5       0x10 obj/BlueOS_startup.o
-                                         0x1b (size before relaxing)
+                0x000000000800090d       0x2a obj/BlueOS_startup.o
+                                         0x35 (size before relaxing)
  .rodata.str1.1
-                0x00000000080008e5       0x37 obj/BlueOS_clocks.o
-                0x000000000800091c                . = ALIGN (0x4)
-                0x000000000800091c                __os_end = .
+                0x0000000008000937       0x37 obj/BlueOS_clocks.o
+                0x0000000008000970                . = ALIGN (0x4)
+ *fill*         0x000000000800096e        0x2 ceaddead
+                0x0000000008000970                __os_end = .
 
-.glue_7         0x000000000800091c        0x0
- .glue_7        0x000000000800091c        0x0 linker stubs
+.glue_7         0x0000000008000970        0x0
+ .glue_7        0x0000000008000970        0x0 linker stubs
 
-.glue_7t        0x000000000800091c        0x0
- .glue_7t       0x000000000800091c        0x0 linker stubs
+.glue_7t        0x0000000008000970        0x0
+ .glue_7t       0x0000000008000970        0x0 linker stubs
 
-.vfp11_veneer   0x000000000800091c        0x0
- .vfp11_veneer  0x000000000800091c        0x0 linker stubs
+.vfp11_veneer   0x0000000008000970        0x0
+ .vfp11_veneer  0x0000000008000970        0x0 linker stubs
 
-.v4_bx          0x000000000800091c        0x0
- .v4_bx         0x000000000800091c        0x0 linker stubs
+.v4_bx          0x0000000008000970        0x0
+ .v4_bx         0x0000000008000970        0x0 linker stubs
 
-.iplt           0x000000000800091c        0x0
- .iplt          0x000000000800091c        0x0 obj/BlueOS_loader.o
+.iplt           0x0000000008000970        0x0
+ .iplt          0x0000000008000970        0x0 obj/BlueOS_loader.o
 
-.rel.dyn        0x000000000800091c        0x0
- .rel.iplt      0x000000000800091c        0x0 obj/BlueOS_loader.o
+.rel.dyn        0x0000000008000970        0x0
+ .rel.iplt      0x0000000008000970        0x0 obj/BlueOS_loader.o
 
-.data           0x0000000020000000        0x0 load address 0x000000000800091c
+.data           0x0000000020000000        0x0 load address 0x0000000008000970
                 0x0000000020000000                . = ALIGN (0x4)
  *(.data*)
                 0x0000000020000000                . = ALIGN (0x4)
 
-.igot.plt       0x000000000800091c        0x0 load address 0x0000000020000000
- .igot.plt      0x000000000800091c        0x0 obj/BlueOS_loader.o
+.igot.plt       0x0000000008000970        0x0 load address 0x0000000020000000
+ .igot.plt      0x0000000008000970        0x0 obj/BlueOS_loader.o
 
-.bss            0x0000000020000000      0x2e0
+.bss            0x0000000020000000      0x138
  *(.bss*)
  .bss.console_Timeout
                 0x0000000020000000        0x4 obj/BlueOS_console.o
@@ -238,24 +250,23 @@ Linker script and memory map
  .bss.Last_Error
                 0x000000002000010c        0x4 obj/BlueOS_status.o
  .bss.Led_Time  0x0000000020000110        0x4 obj/BlueOS_status.o
- .bss.schedule  0x0000000020000114      0x190 obj/BlueOS_switcher.o
+ .bss.task_Table_Index
+                0x0000000020000114        0x4 obj/BlueOS_switcher.o
+ .bss.stack_Table
+                0x0000000020000118        0xc obj/BlueOS_switcher.o
+                0x0000000020000118                stack_Table
  .bss.current_task_id
-                0x00000000200002a4        0x1 obj/BlueOS_switcher.o
- .bss.current_task
-                0x00000000200002a5        0x1 obj/BlueOS_switcher.o
- *fill*         0x00000000200002a6        0x2 
- .bss.task_table
-                0x00000000200002a8       0x28 obj/BlueOS_switcher.o
- .bss.schedule_len
-                0x00000000200002d0        0x1 obj/BlueOS_switcher.o
- *fill*         0x00000000200002d1        0x3 
+                0x0000000020000124        0x1 obj/BlueOS_switcher.o
+ *fill*         0x0000000020000125        0x3 
+ .bss.schedule_Table_Index
+                0x0000000020000128        0x4 obj/BlueOS_switcher.o
  .bss.sys_Ticks
-                0x00000000200002d4        0x4 obj/BlueOS_clocks.o
+                0x000000002000012c        0x4 obj/BlueOS_clocks.o
  .bss.switch_On
-                0x00000000200002d8        0x1 obj/BlueOS_clocks.o
- *fill*         0x00000000200002d9        0x3 
+                0x0000000020000130        0x1 obj/BlueOS_clocks.o
+ *fill*         0x0000000020000131        0x3 
  .bss.next_Switch_Time
-                0x00000000200002dc        0x4 obj/BlueOS_clocks.o
+                0x0000000020000134        0x4 obj/BlueOS_clocks.o
  *(COMMON)
 LOAD obj/BlueOS_loader.o
 LOAD obj/BlueOS_IO.o

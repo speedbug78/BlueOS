@@ -16,11 +16,13 @@
  *
 ***/
 
+#include "BlueOS_config.h"
 #include "BlueOS_startup.h"
 #include "BlueOS_switcher.h"
 #include "BlueOS_clocks.h"
 
 extern uint32_t __StackTop;
+
 
 // Create an array for the handler functions
 uint32_t* vectorTable[] __attribute__ (( section ( ".vector_table" ))) = {
