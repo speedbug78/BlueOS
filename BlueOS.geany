@@ -29,7 +29,7 @@ long_line_column=72
 
 [files]
 current_page=9
-FILE_NAME_0=627;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_startup.c;0;4
+FILE_NAME_0=1343;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_startup.c;0;4
 FILE_NAME_1=168;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_status.c;0;4
 FILE_NAME_2=40;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_registers.h;0;4
 FILE_NAME_3=287;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_startup.h;0;4
@@ -38,10 +38,10 @@ FILE_NAME_5=895;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FSTM3
 FILE_NAME_6=251;Make;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FMakefile;0;4
 FILE_NAME_7=102;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_console.h;0;4
 FILE_NAME_8=4817;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_console.c;0;4
-FILE_NAME_9=567;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_switcher.c;0;4
+FILE_NAME_9=2207;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_switcher.c;0;4
 FILE_NAME_10=1696;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_loader.c;0;4
 FILE_NAME_11=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_loader.h;0;4
-FILE_NAME_12=494;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_switcher.h;0;4
+FILE_NAME_12=520;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_switcher.h;0;4
 FILE_NAME_13=922;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FBlueOS_linker.ld;0;4
 FILE_NAME_14=904;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_IO.c;0;4
 FILE_NAME_15=1822;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_clocks.c;0;4
@@ -54,7 +54,7 @@ FILE_NAME_21=1859;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlue
 FILE_NAME_22=81;None;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FDocs%2FScheduler%2FSchedule_Example.txt;0;4
 FILE_NAME_23=1037;Markdown;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FREADME.md;0;4
 FILE_NAME_24=528;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fconfig%2FBlueOS_config.c;0;4
-FILE_NAME_25=174;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fconfig%2FBlueOS_config.h;0;4
+FILE_NAME_25=351;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fconfig%2FBlueOS_config.h;0;4
 
 [VTE]
 last_dir=/home/daniel

@@ -1,0 +1,40 @@
+
+bin/Task1.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+08001400 <main>:
+ 8001400:	b508      	push	{r3, lr}
+ 8001402:	4802      	ldr	r0, [pc, #8]	; (800140c <__Flash_Bottom+0xc>)
+ 8001404:	f000 f814 	bl	8001430 <send_Str>
+ 8001408:	2000      	movs	r0, #0
+ 800140a:	bd08      	pop	{r3, pc}
+ 800140c:	08001442 	.word	0x08001442
+
+08001410 <send_Char>:
+ 8001410:	f44f 3380 	mov.w	r3, #65536	; 0x10000
+ 8001414:	4a04      	ldr	r2, [pc, #16]	; (8001428 <send_Char+0x18>)
+ 8001416:	6812      	ldr	r2, [r2, #0]
+ 8001418:	0612      	lsls	r2, r2, #24
+ 800141a:	d401      	bmi.n	8001420 <send_Char+0x10>
+ 800141c:	3b01      	subs	r3, #1
+ 800141e:	d1f9      	bne.n	8001414 <send_Char+0x4>
+ 8001420:	4b02      	ldr	r3, [pc, #8]	; (800142c <send_Char+0x1c>)
+ 8001422:	6018      	str	r0, [r3, #0]
+ 8001424:	4770      	bx	lr
+ 8001426:	bf00      	nop
+ 8001428:	40013800 	.word	0x40013800
+ 800142c:	40013804 	.word	0x40013804
+
+08001430 <send_Str>:
+ 8001430:	b510      	push	{r4, lr}
+ 8001432:	1e44      	subs	r4, r0, #1
+ 8001434:	f814 0f01 	ldrb.w	r0, [r4, #1]!
+ 8001438:	b110      	cbz	r0, 8001440 <send_Str+0x10>
+ 800143a:	f7ff ffe9 	bl	8001410 <send_Char>
+ 800143e:	e7f9      	b.n	8001434 <send_Str+0x4>
+ 8001440:	bd10      	pop	{r4, pc}
+ 8001442:	540a      	.short	0x540a
+ 8001444:	206b7361 	.word	0x206b7361
+ 8001448:	00000031 	.word	0x00000031

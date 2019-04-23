@@ -1,9 +1,9 @@
 #Output file name
-OUTFILE  = BlueOS
+OUTFILE  = Task2
 #Linker script
-LDSCRIPT = BlueOS_linker.ld
+LDSCRIPT = Task2_linker.ld
 #Map File
-MAPFILE = BlueOS_linker.map
+MAPFILE = Task2_linker.map
 #Directories to find included files
 INCLUDE  =  -I./inc
 #Additional link libraries
@@ -36,9 +36,7 @@ CFLAGS = -c -fno-common   \
 	-mthumb               \
 	-std=gnu99            \
 	-DSTM32F103CB         \
-	-DSTM32F10X_MD        \
-	-DBLUE_PILL
-	#-DMAPLE_MINI
+	-DSTM32F10X_MD        
 
 #Linker Flags
 LDFLAGS	= -O, --gc-sections \
@@ -120,9 +118,9 @@ $(BLDIR)/%.o: $(SRCDIR)/%.s
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@
 
-flash: $(TARGET).bin
+flash: clean all
 	@printf "  FLASH  $<\n"
-	$(FL) --reset write $(TARGET).bin 0x08000000
+	$(FL) --reset write $(TARGET).bin 0x08004000
 
 serial:
 	@printf "  SERIAL $<\n"

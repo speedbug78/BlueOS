@@ -1,4 +1,3 @@
-# BlueOS
-Pre-Allocated Real Time Operating System for STM32F103 microcontrollers
+# Task2
 
-Warning: this code is pre-alpha and may not work at all
+Demonstration task #2

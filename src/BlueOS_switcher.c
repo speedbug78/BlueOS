@@ -2,6 +2,7 @@
 #include "BlueOS_utilities.h"
 #include "BlueOS_config.h"
 #include "BlueOS_console.h"
+#include "BlueOS_startup.h"
 
 static volatile uint8_t current_task;
 
@@ -30,18 +31,39 @@ void switcher_Startup( void ){
     //Initialize task table index
     task_Table_Index = (uint32_t*)TASK_TABLE_BEGIN;
 
-    //Initialize stack table
+    //Initialize stack table and stacks
     for( i = 0; i < NUMBER_OF_TASKS; i ++ ){
-        uint32_t ram_start, ram_length;
+        uint32_t ram_start, ram_length, code_start;
+        code_start = *(task_Table_Index + ( 0 ) + ( NUMBER_OF_TASK_DATA * i ));
         ram_start = *(task_Table_Index + ( 2 ) + ( NUMBER_OF_TASK_DATA * i ));
         ram_length = *(task_Table_Index + ( 3 ) + ( NUMBER_OF_TASK_DATA * i ));
 
         stack_Table[i] = (uint32_t*)( ram_start + ram_length );
+
+        //Initialize stacks for tasks (not OS).  This is done so we can perform the first switch
+        //just like all the others, rather than having a special case for the first one.
+        if( i > 0 ){
+            stack_Table[i] -= 1;
+            *stack_Table[i] = (uint32_t)i; //Pass any argument to the task here? (r0 value)
+            stack_Table[i] -= 1;
+            *stack_Table[i] = 0; //r1 value
+            stack_Table[i] -= 1;
+            *stack_Table[i] = 0; //r2 value
+            stack_Table[i] -= 1;
+            *stack_Table[i] = 0; //r3 value
+            stack_Table[i] -= 1;
+            *stack_Table[i] = 0; //r12 value
+            stack_Table[i] -= 1;
+            *stack_Table[i] = code_start; //pc value needs to be the start of the task's code
+            stack_Table[i] -= 1;
+            *stack_Table[i] = (uint32_t)hold_hdlr; //lr value (where to go if the task doesn't start or it returns)
+            stack_Table[i] -= 1;
+            *stack_Table[i] = 0x21000000; //default value for the program status register
+            stack_Table[i] -= 8;    //move the stack pointer to include registers stacked by software (value doesn't matter?).
+        }
     }
 
     current_task_id = *schedule_Table_Index & 0xFF000000;
-
-
 }
 
 void switcher_Handler( void ){
@@ -66,6 +88,10 @@ void switcher_Handler( void ){
 
     //Update current_task_id with the new task
     current_task_id = *schedule_Table_Index & 0xFF000000;
+
+    send_Str( "\nNew Task ID: " );
+    send_Uint32( current_task_id );
+    send_Str( "\n" );
 
     //Set new task's stack pointer according to ARM info center section 2.3.7
     if( current_task_id != 0 ){

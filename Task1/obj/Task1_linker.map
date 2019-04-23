@@ -1,0 +1,82 @@
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 obj/main.o
+ .data          0x0000000000000000        0x0 obj/main.o
+ .bss           0x0000000000000000        0x0 obj/main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000008001400                __Flash_Bottom = 0x8001400
+                0x0000000008003fff                __Flash_Top = 0x8003fff
+                0x0000000000002c00                __Flash_Length = 0x2c00
+                0x0000000020000800                __RAM_Bottom = 0x20000800
+                0x00000000200027ff                __RAM_Top = 0x200027ff
+                0x0000000000002000                __RAM_Length = 0x2000
+                0x0000000020002800                __StackTop = 0x20002800
+
+.text           0x0000000008001400       0x4c
+                0x0000000008001400                . = ALIGN (0x4)
+                0x0000000008001400                __task1_start = .
+ *(.task1*)
+ .task1         0x0000000008001400       0x10 obj/main.o
+                0x0000000008001400                main
+ *(.text*)
+ .text.send_Char
+                0x0000000008001410       0x20 obj/main.o
+                0x0000000008001410                send_Char
+ .text.send_Str
+                0x0000000008001430       0x12 obj/main.o
+                0x0000000008001430                send_Str
+ *(.rodata*)
+ .rodata.str1.1
+                0x0000000008001442        0x8 obj/main.o
+                0x000000000800144c                . = ALIGN (0x4)
+ *fill*         0x000000000800144a        0x2 
+                0x000000000800144c                __task1_end = .
+
+.glue_7         0x000000000800144c        0x0
+ .glue_7        0x000000000800144c        0x0 linker stubs
+
+.glue_7t        0x000000000800144c        0x0
+ .glue_7t       0x000000000800144c        0x0 linker stubs
+
+.vfp11_veneer   0x000000000800144c        0x0
+ .vfp11_veneer  0x000000000800144c        0x0 linker stubs
+
+.v4_bx          0x000000000800144c        0x0
+ .v4_bx         0x000000000800144c        0x0 linker stubs
+
+.iplt           0x000000000800144c        0x0
+ .iplt          0x000000000800144c        0x0 obj/main.o
+
+.rel.dyn        0x000000000800144c        0x0
+ .rel.iplt      0x000000000800144c        0x0 obj/main.o
+
+.data           0x0000000020000800        0x0 load address 0x000000000800144c
+                0x0000000020000800                . = ALIGN (0x4)
+ *(.data*)
+                0x0000000020000800                . = ALIGN (0x4)
+
+.igot.plt       0x000000000800144c        0x0 load address 0x0000000020000800
+ .igot.plt      0x000000000800144c        0x0 obj/main.o
+
+.bss
+ *(.bss*)
+ *(COMMON)
+LOAD obj/main.o
+OUTPUT(bin/Task1.elf elf32-littlearm)
+
+.comment        0x0000000000000000       0x38
+ .comment       0x0000000000000000       0x38 obj/main.o
+                                         0x39 (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x33
+ .ARM.attributes
+                0x0000000000000000       0x33 obj/main.o
