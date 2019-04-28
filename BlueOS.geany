@@ -28,13 +28,13 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=9
+current_page=5
 FILE_NAME_0=1343;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_startup.c;0;4
 FILE_NAME_1=168;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_status.c;0;4
 FILE_NAME_2=40;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_registers.h;0;4
 FILE_NAME_3=287;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_startup.h;0;4
 FILE_NAME_4=325;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_status.h;0;4
-FILE_NAME_5=895;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FSTM32F103_Regs.h;0;4
+FILE_NAME_5=2138;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FSTM32F103_Regs.h;0;4
 FILE_NAME_6=251;Make;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2FMakefile;0;4
 FILE_NAME_7=102;C++;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Finc%2FBlueOS_console.h;0;4
 FILE_NAME_8=4817;C;0;EUTF-8;1;1;0;%2Fhome%2Fdaniel%2FCode%2FBlueOS%2Fsrc%2FBlueOS_console.c;0;4

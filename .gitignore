@@ -1,0 +1,10 @@
+/Tools/dependencies/musl/bin/
+/Tools/dependencies/musl/include/
+/Tools/dependencies/musl/lib/
+*.o
+*.lo
+*.a
+*.so
+*.so.1
+config.mak
+/obj/

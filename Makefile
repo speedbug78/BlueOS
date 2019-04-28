@@ -109,6 +109,8 @@ $(TARGET).elf: $(addprefix $(BLDIR)/, $(OBJS))
 	@echo "  LD $<"
 	@$(LD) $(LDFLAGS) -o $(TARGET).elf $(addprefix $(BLDIR)/, $(OBJS)) $(LDLIBS)
 
+# Make object files (.o) out of various sources
+
 $(BLDIR)/%.o: $(SRCDIR)/%.c
 	@echo "  CC $<"
 	@$(CC) $(INCLUDE) $(CFLAGS)  $< -o $@

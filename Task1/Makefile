@@ -28,6 +28,7 @@ FL=$(shell which st-flash)
 SR=$(shell which minicom)
 
 #Compiler Flags
+#gnu99 is used because
 CFLAGS = -c -fno-common   \
 	-ffunction-sections   \
 	-fdata-sections       \
@@ -125,9 +126,3 @@ flash: clean all
 serial:
 	@printf "  SERIAL $<\n"
 	$(SR) -D /dev/ttyUSB0 -b 115200
-
-#Dump some of Flash into file
-#st-flash --reset read Flash_Dump.hex 0x08000000 0x08000800
-
-# Dissasembly of .bin file (or Flash dump?)
-# arm-none-eabi-objdump -D -bbinary -marm bin/BlueOS.bin -Mforce-thumb > bin/BlueOS.S

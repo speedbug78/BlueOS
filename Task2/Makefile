@@ -125,9 +125,3 @@ flash: clean all
 serial:
 	@printf "  SERIAL $<\n"
 	$(SR) -D /dev/ttyUSB0 -b 115200
-
-#Dump some of Flash into file
-#st-flash --reset read Flash_Dump.hex 0x08000000 0x08000800
-
-# Dissasembly of .bin file (or Flash dump?)
-# arm-none-eabi-objdump -D -bbinary -marm bin/BlueOS.bin -Mforce-thumb > bin/BlueOS.S
