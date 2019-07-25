@@ -7,4 +7,8 @@
 *.so
 *.so.1
 config.mak
-/obj/
+obj/*
+*.py.*
+*.pyc
+*.tcl.*
+*.bos

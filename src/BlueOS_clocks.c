@@ -5,11 +5,9 @@
 #include "BlueOS_clocks.h"
 #include "BlueOS_status.h"
 #include "BlueOS_console.h"
-
-//Number of system "ticks" since powerup.
-static volatile uint32_t sys_Ticks = 0;
-static volatile uint32_t next_Switch_Time = 0;
-static uint8_t switch_On = 0;
+#include "BlueOS_defines.h"
+#include "BlueOS_registers.h"
+#include "STM32F103_Regs.h"
 
 /***
  * Configure SYSCLOCK for 8MHz HSI
@@ -32,13 +30,14 @@ void clocks_Safe_sysClock( void ){
 ***/
 void clocks_Start_sysClock( void ){
     uint16_t i;
+
     //Set clock control <RM0008 7.3.1>
     reg( RCC_CR ) |= BIT16;                 //Turn on HSE
     i = 0;
     while(( reg( RCC_CR ) & BIT17 ) == 0 ){      //Wait for HSE to start up (add timeout?)
         if( i == 0xFFFF ){
         clocks_Safe_sysClock ();
-        status_Set_Error( "\nHSE Start Fail!" );
+        status_Set_Error( "\r\nHSE Start Fail!" );
         return;
         }
         i++;
@@ -83,7 +82,7 @@ void clocks_Start_sysClock( void ){
     while(( reg( RCC_CR ) & BIT25 ) == 0 ){      //Wait for PLL to start up
         if( i == 0xFFFF ){
         clocks_Safe_sysClock ();
-        status_Set_Error( "\nPLL Start Fail!" );
+        status_Set_Error( "\r\nPLL Start Fail!" );
         return;
         }
         i++;
@@ -95,7 +94,7 @@ void clocks_Start_sysClock( void ){
     while(( reg( RCC_CFGR ) & ( BIT2 | BIT3 )) != BIT3 ){ //Wait for PLL to become clock source
         if( i == 0xFFFF ){
         clocks_Safe_sysClock ();
-        status_Set_Error( "\nSwitch to PLL Fail!" );
+        status_Set_Error( "\r\nSwitch to PLL Fail!" );
         return;
         }
         i++;
@@ -134,31 +133,4 @@ void clocks_Start_sysTick( void ){
     reg( SYSTICK_VAL )   = (uint32_t)0;                         //Reset Systick timer value.
     reg( SCB_SHPR3 )    |= ( BIT28 | BIT29 | BIT30 | BIT31 );   //Set Systick interrupt priority to highest.
     reg( SYSTICK_CTRL ) |= ( BIT0 | BIT1 );                     //Enable the Systick timer and interrupt.
-}
-
-void sysTick_Handler( void ){
-    //Increment Up Time
-    sys_Ticks++;
-
-    if( next_Switch_Time == sys_Ticks && switch_On ){
-        reg( SCB_ICSR ) |= BIT28; //Set switch (PendSV) interrupt
-    }
-}
-
-//Getter to return system time.
-uint32_t clocks_sysTime( void ){
-    return sys_Ticks;
-}
-
-//Setter to set next switch time.
-void sysTick_Set_Switch_Time( uint32_t time ){
-    next_Switch_Time = time;
-}
-
-void sysTick_Start_Task_Switching( void ){
-    switch_On = 1;
-}
-
-void sysTick_Stop_Task_Switching( void ){
-    switch_On = 0;
 }

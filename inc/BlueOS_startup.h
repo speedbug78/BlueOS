@@ -3,13 +3,13 @@
 
 #include "BlueOS_defines.h"
 
-void os_entry( void );
-void hold_hdlr( void );
+int main( void );
 void nm_hdlr( void );
-void hf_hdlr( void );
-void mm_hdlr( void );
-void bf_hdlr( void );
-void uf_hdlr( void );
+void hold_hdlr( void ) __attribute__( ( naked ) );
+void hf_hdlr( void ) __attribute__( ( naked ) );
+void mm_hdlr( void ) __attribute__( ( naked ) );
+void bf_hdlr( void ) __attribute__( ( naked ) );
+void uf_hdlr( void ) __attribute__( ( naked ) );
 void sc_hdlr( void );
 void dm_hdlr( void );
 

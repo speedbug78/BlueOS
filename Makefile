@@ -64,6 +64,36 @@ all: $(TARGET).bin $(TARGET).hex $(TARGET).list
 	$(SZ) $(TARGET).elf
 
 clean:
+ifeq ($(OS),Windows_NT)
+	del *.o
+	del *.elf
+	del *.lst
+	del *.out
+	del *.bin
+	del *.hex
+	del *.map
+	del $(BLDIR)\*.o
+	del $(BLDIR)\*.elf
+	del $(BLDIR)\*.lst
+	del $(BLDIR)\*.out
+	del $(BLDIR)\*.bin
+	del $(BLDIR)\*.hex
+	del $(BLDIR)\*.map
+	del $(SRCDIR)\*.o
+	del $(SRCDIR)\*.elf
+	del $(SRCDIR)\*.lst
+	del $(SRCDIR)\*.out
+	del $(SRCDIR)\*.bin
+	del $(SRCDIR)\*.hex
+	del $(SRCDIR)\*.map
+	del $(OUTDIR)\*.o
+	del $(OUTDIR)\*.elf
+	del $(OUTDIR)\*.lst
+	del $(OUTDIR)\*.out
+	del $(OUTDIR)\*.bin
+	del $(OUTDIR)\*.hex
+	del $(OUTDIR)\*.map
+else
 	-find . -name '*.o'   -exec rm {} \;
 	-find . -name '*.elf' -exec rm {} \;
 	-find . -name '*.lst' -exec rm {} \;
@@ -92,9 +122,10 @@ clean:
 	-find . -name '$(OUTDIR)\*.bin' -exec rm {} \;
 	-find . -name '$(OUTDIR)\*.hex' -exec rm {} \;
 	-find . -name '$(OUTDIR)\*.map' -exec rm {} \;
+endif
 
 $(TARGET).list: $(TARGET).elf
-	@echo "  Dump $(TARGET).elf to $(TARGET).list"
+	@echo "  Dump $(TARGET).elf to $(TARGET).lst"
 	@$(OD) $(ODFLAGS) $< > $(TARGET).lst
 
 $(TARGET).bin: $(TARGET).elf

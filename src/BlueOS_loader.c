@@ -25,7 +25,7 @@ void loader( void ){
     //Erase Flash
     erase_Flash( Task_Bottom, ( Task_Top - Task_Bottom ));
 
-    send_Str( "\nPlease send HEX file" );                             //Tell user we are ready to load a HEX file.
+    send_Str( "\r\nPlease send HEX file" );                             //Tell user we are ready to load a HEX file.
 
     get_Ihex();                                                     //Receive HEX file and write to flash.
 
@@ -47,7 +47,7 @@ void erase_Flash( uint32_t address, uint32_t len ){
             wait_Flash();                                           //Wait for page to erase
             for( w = 0; w < 0x0400; w += 0x04 ){                    //Loop through each word of the page
                 if( reg( p + w ) != (uint32_t)0xFFFFFFFF ){         //Check that the word was erased
-                    send_Str( "\nFlash Error" );                                        //Tell the user there was a flash error.
+                    send_Str( "\r\nFlash Error" );                                        //Tell the user there was a flash error.
                     while(1);//return p + w;                                   //If a word isn't erased, return page address
                 }
             }
@@ -118,7 +118,7 @@ void get_Ihex( void ){
 
         checksum = char_Byte();
         if( !( checksum + line_datasum )){                //Verify line checksum
-            send_Str( "\nInvalid Checksum" );
+            send_Str( "\r\nInvalid Checksum" );
             send_Byte( line_datasum );
             send_Char( ' ' );
             send_Byte( checksum );
@@ -166,7 +166,7 @@ void get_Ihex( void ){
                 break;
 
             default:                                                 //Error, we have an invalid record type
-                send_Str( "\nInvalid Record" );
+                send_Str( "\r\nInvalid Record" );
                 the_end = 3;                             //Return the invalid record
                 break;
         }
@@ -183,7 +183,7 @@ void get_Ihex( void ){
 inline void write_Flash ( uint16_t data, uint32_t address ){
     uint32_t verify = 0x00000000;
     if(( address < link_val( Task_Bottom )) || ( address > link_val( Task_Top ))){    //Check if write address is out of range.
-        send_Str( "\nInvalid Address" );
+        send_Str( "\r\nInvalid Address" );
         while(1);
     }
     wait_Flash();
@@ -191,7 +191,7 @@ inline void write_Flash ( uint16_t data, uint32_t address ){
 
     verify = *(volatile uint16_t*)address;                              //Verify that data was written properly
     if( verify != data){
-        send_Str( "\nWrite verify fail" );
+        send_Str( "\r\nWrite verify fail" );
         while(1);
     }
 }

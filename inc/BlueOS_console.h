@@ -5,7 +5,7 @@
 
 #define C_BUFF_LEN  255
 
-#define CMD_LINE    "\nBlue_OS\\>"
+#define CMD_LINE    "\r\nBlue_OS\\>"
 
 void console_Startup_8Mhz( void );
 void console_Startup_72Mhz( void );

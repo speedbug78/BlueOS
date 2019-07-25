@@ -6,20 +6,20 @@ Disassembly of section .text:
 
 08004000 <main>:
  8004000:	b508      	push	{r3, lr}
- 8004002:	4802      	ldr	r0, [pc, #8]	; (800400c <__Flash_Bottom+0xc>)
- 8004004:	f000 f814 	bl	8004030 <send_Str>
- 8004008:	2000      	movs	r0, #0
- 800400a:	bd08      	pop	{r3, pc}
+ 8004002:	4c02      	ldr	r4, [pc, #8]	; (800400c <main+0xc>)
+ 8004004:	4620      	mov	r0, r4
+ 8004006:	f000 f813 	bl	8004030 <send_Str>
+ 800400a:	e7fb      	b.n	8004004 <main+0x4>
  800400c:	08004042 	.word	0x08004042
 
 08004010 <send_Char>:
  8004010:	f44f 3380 	mov.w	r3, #65536	; 0x10000
  8004014:	4a04      	ldr	r2, [pc, #16]	; (8004028 <send_Char+0x18>)
- 8004016:	6812      	ldr	r2, [r2, #0]
- 8004018:	0612      	lsls	r2, r2, #24
+ 8004016:	6811      	ldr	r1, [r2, #0]
+ 8004018:	0609      	lsls	r1, r1, #24
  800401a:	d401      	bmi.n	8004020 <send_Char+0x10>
  800401c:	3b01      	subs	r3, #1
- 800401e:	d1f9      	bne.n	8004014 <send_Char+0x4>
+ 800401e:	d1fa      	bne.n	8004016 <send_Char+0x6>
  8004020:	4b02      	ldr	r3, [pc, #8]	; (800402c <send_Char+0x1c>)
  8004022:	6018      	str	r0, [r3, #0]
  8004024:	4770      	bx	lr
@@ -31,10 +31,10 @@ Disassembly of section .text:
  8004030:	b510      	push	{r4, lr}
  8004032:	1e44      	subs	r4, r0, #1
  8004034:	f814 0f01 	ldrb.w	r0, [r4, #1]!
- 8004038:	b110      	cbz	r0, 8004040 <send_Str+0x10>
- 800403a:	f7ff ffe9 	bl	8004010 <send_Char>
- 800403e:	e7f9      	b.n	8004034 <send_Str+0x4>
- 8004040:	bd10      	pop	{r4, pc}
+ 8004038:	b900      	cbnz	r0, 800403c <send_Str+0xc>
+ 800403a:	bd10      	pop	{r4, pc}
+ 800403c:	f7ff ffe8 	bl	8004010 <send_Char>
+ 8004040:	e7f8      	b.n	8004034 <send_Str+0x4>
  8004042:	540a      	.short	0x540a
  8004044:	206b7361 	.word	0x206b7361
  8004048:	00000032 	.word	0x00000032

@@ -1,0 +1,92 @@
+# depslib dependency file v1.0
+1563302341 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_clocks.c
+	"BlueOS_clocks.h"
+	"BlueOS_status.h"
+	"BlueOS_console.h"
+	"BlueOS_defines.h"
+	"BlueOS_registers.h"
+	"STM32F103_Regs.h"
+
+1562802616 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_clocks.h
+
+1559663413 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_status.h
+	"BlueOS_defines.h"
+
+1559682692 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_defines.h
+
+1563302132 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_console.h
+	"BlueOS_defines.h"
+
+1559663413 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_registers.h
+	"BlueOS_defines.h"
+	"STM32F103_Regs.h"
+
+1562862117 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\stm32f103_regs.h
+
+1562954830 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_console.c
+	"BlueOS_console.h"
+	"BlueOS_registers.h"
+	"BlueOS_switcher.h"
+
+1562974579 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_switcher.h
+	"BlueOS_registers.h"
+
+1559663413 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_io.c
+	"BlueOS_IO.h"
+	"BlueOS_status.h"
+	"BlueOS_registers.h"
+
+1559663413 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_io.h
+	"BlueOS_defines.h"
+
+1563302319 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_loader.c
+	"BlueOS_loader.h"
+	"BlueOS_registers.h"
+	"BlueOS_utilities.h"
+	"BlueOS_console.h"
+	"BlueOS_clocks.h"
+
+1563302107 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_loader.h
+	"BlueOS_defines.h"
+
+1559663413 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_utilities.h
+	"BlueOS_registers.h"
+
+1563998881 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_startup.c
+	"BlueOS_startup.h"
+	"BlueOS_clocks.h"
+	"BlueOS_registers.h"
+	"BlueOS_loader.h"
+	"BlueOS_status.h"
+	"BlueOS_console.h"
+	"BlueOS_IO.h"
+	"BlueOS_utilities.h"
+	"BlueOS_switcher.h"
+
+1563983714 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\inc\blueos_startup.h
+	"BlueOS_defines.h"
+
+1563302159 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_status.c
+	"BlueOS_status.h"
+	"BlueOS_registers.h"
+	"BlueOS_console.h"
+	"BlueOS_clocks.h"
+	"BlueOS_switcher.h"
+	"BlueOS_IO.h"
+
+1564090981 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\src\blueos_switcher.c
+	"BlueOS_switcher.h"
+	"BlueOS_utilities.h"
+	"BlueOS_clocks.h"
+	"BlueOS_config.h"
+	"BlueOS_console.h"
+	"BlueOS_startup.h"
+
+1559663413 c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\config\blueos_config.h
+
+1564087875 source:c:\users\wirickd\documents\datasheets\micro_ecu\software\blueos\embitz\config\blueos_config.c
+	"BlueOS_config.h"
+	"BlueOS_startup.h"
+	"BlueOS_switcher.h"
+	"BlueOS_clocks.h"
+

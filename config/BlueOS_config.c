@@ -24,24 +24,24 @@
 extern uint32_t __StackTop;
 
 
-// Create an array for the handler functions
+/* Create an array for the handler functions */
 uint32_t* vectorTable[] __attribute__ (( section ( ".vector_table" ))) = {
-    (uint32_t*) &__StackTop,            //Top of stack as defined in the linker file
-    (uint32_t*) os_entry,               //Reset handler
-    (uint32_t*) nm_hdlr,                //Non mask handler
-    (uint32_t*) hf_hdlr,                //Hard fault handler
-    (uint32_t*) mm_hdlr,                //Memory management handler
-    (uint32_t*) bf_hdlr,                //Bus fault handler
-    (uint32_t*) uf_hdlr,                //Usage fault handler
+    (uint32_t*) &__StackTop,            // Top of stack as defined in the linker file
+    (uint32_t*) main,                   // Reset handler
+    (uint32_t*) nm_hdlr,                // Non mask handler
+    (uint32_t*) hf_hdlr,                // Hard fault handler
+    (uint32_t*) mm_hdlr,                // Memory management fault handler
+    (uint32_t*) bf_hdlr,                // Bus fault handler
+    (uint32_t*) uf_hdlr,                // Usage fault handler
     (uint32_t*) 0x00000000,
     (uint32_t*) 0x00000000,
     (uint32_t*) 0x00000000,
     (uint32_t*) 0x00000000,
-    (uint32_t*) sc_hdlr,                //System call handler
-    (uint32_t*) dm_hdlr,                //Debug monitor handler
+    (uint32_t*) sc_hdlr,                // System call handler
+    (uint32_t*) dm_hdlr,                // Debug monitor handler
     (uint32_t*) 0x00000000,
-    (uint32_t*) switcher_Handler,       //Task switch handler
-    (uint32_t*) sysTick_Handler,        //Timer tick handler
+    (uint32_t*) switcher_PendSV_Handler,       // Task switch handler
+    (uint32_t*) switcher_SysTick_Handler,        // Timer tick handler
 };
 
 /*Task Schedule*/

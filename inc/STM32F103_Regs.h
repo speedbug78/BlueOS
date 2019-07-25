@@ -4,10 +4,10 @@
 /***
  * Cortex M3 Registers
 ***/
-//<PM0056 4.4.14>
-#define SCB_CPUID       0xE000ED00  //Processor identification
-#define SCB_ICSR        0xE000ED04  //PendSV and Systick interrupt control
-#define SCB_VTOR        0xE000ED08  //Vector table relocation
+// <PM0056 4.4.14>
+#define SCB_CPUID       0xE000ED00  // Processor identification
+#define SCB_ICSR        0xE000ED04  // PendSV and Systick interrupt control
+#define SCB_VTOR        0xE000ED08  // Vector table relocation
 #define SCB_AIRCR       0xE000ED0C
 #define SCB_SCR         0xE000ED10
 #define SCB_CCR         0xE000ED14
@@ -17,22 +17,22 @@
 #define SCB_SHCRS       0xE000ED24
 #define SCB_CFSR        0xE000ED28
 #define SCB_HFSR        0xE000ED2C
-#define SCB_MMAR        0xE000ED34
+#define SCB_MMFAR       0xE000ED34
 #define SCB_BFAR        0xE000ED38
 
-//<PM0056 4.5.6>
+// <PM0056 4.5.6>
 #define SYSTICK_CTRL    0xE000E010
 #define SYSTICK_LOAD    0xE000E014
 #define SYSTICK_VAL     0xE000E018
 #define SYSTICK_CALIB   0xE000E01C
 
-//<PM0056 4.3.11>
+// <PM0056 4.3.11>
 #define NVIC_ISER0      0xE000E100
 
 /***
     * AHB Bus
 ***/
-//Internal Flash Memory register locations
+// Internal Flash Memory register locations
 #define FLASH_ACR       0x40022000
 #define FLASH_KEY       0x40022004
 #define FLASH_OPTKEY    0x40022008
@@ -42,7 +42,7 @@
 #define FLASH_OBR       0x4002201C
 #define FLASH_WRPR      0x40022020
 
-//Reset and Clock Control (RCC) register locations
+// Reset and Clock Control (RCC) register locations
 #define RCC_CR          0x40021000
 #define RCC_CFGR        0x40021004
 #define RCC_CIR         0x40021008
@@ -57,7 +57,7 @@
 /***
     * APB2 Bus
 ***/
-//USART1 register locations
+// USART1 register locations
 #define USART1_SR       0x40013800
 #define USART1_DR       0x40013804
 #define USART1_BRR      0x40013808
@@ -66,7 +66,7 @@
 #define USART1_CR3      0x40013814
 #define USART1_GTPR     0x40013818
 
-//General Purpose IO (GPIO) Port A register locations
+// General Purpose IO (GPIO) Port A register locations
 #define GPIOA_CRL       0x40010800
 #define GPIOA_CRH       0x40010804
 #define GPIOA_IDR       0x40010808
@@ -75,7 +75,7 @@
 #define GPIOA_BRR       0x40010814
 #define GPIOA_LCKR      0x40010818
 
-//General Purpose IO (GPIO) Port B register locations
+// General Purpose IO (GPIO) Port B register locations
 #define GPIOB_CRL       0x40010C00
 #define GPIOB_CRH       0x40010C04
 #define GPIOB_IDR       0x40010C08
@@ -84,7 +84,7 @@
 #define GPIOB_BRR       0x40010C14
 #define GPIOB_LCKR      0x40010C18
 
-//General Purpose IO (GPIO) Port C register locations
+// General Purpose IO (GPIO) Port C register locations
 #define GPIOC_CRL       0x40011000
 #define GPIOC_CRH       0x40011004
 #define GPIOC_IDR       0x40011008
@@ -93,7 +93,7 @@
 #define GPIOC_BRR       0x40011014
 #define GPIOC_LCKR      0x40011018
 
-//Alternate Function IO (AFIO) register locations
+// Alternate Function IO (AFIO) register locations
 #define AFIO_EVCR       0x40010000
 #define AFIO_MAPR       0x40010004
 #define AFIO_EXTICR1    0x40010008

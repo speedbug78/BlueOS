@@ -20,8 +20,10 @@ void send_Char( char character );
 __attribute__ (( section ( ".task2" )))
 
 int main ( void ) {
-	send_Str( "\nTask 2" );
-	return 0;
+    while(1){
+        send_Str( "\nTask 2" );
+    }
+    return 0;
 }
 
 //Send a single character out USART1, blocking

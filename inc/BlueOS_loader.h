@@ -7,6 +7,6 @@ void loader( void );
 
 #define link_val(x) (uint32_t)&x
 
-#define LOADER_BANNER "\nLOADER\n"
+#define LOADER_BANNER "\r\nLOADER\n"
 
 #endif

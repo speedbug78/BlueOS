@@ -4,7 +4,16 @@
 #include "BlueOS_registers.h"
 
 void switcher_Startup( void );
-void switcher_Handler( void );
+uint32_t switcher_sysTime( void );
+void switcher_Start_Task_Switching( void );
+void switcher_Stop_Task_Switching( void );
+void switcher_PendSV_Handler( void );
+void switcher_SysTick_Handler( void );
+
+
+uint32_t sysTick_sysTime( void );
+
+extern uint32_t switch_debug;
 
 extern const uint32_t __schedule_table_begin;
 extern const uint32_t __schedule_table_end;

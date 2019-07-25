@@ -45,4 +45,9 @@ typedef unsigned long long uint64_t;
 
 #define WORD           (uint32_t)( 0xFFFFFFFF )
 
+#define BLOCK_ALIGNMENT ( 0x0800 )
+
+#define IN_OS              __attribute__(( section( ".text.blueos" )))
+#define START_OS           __attribute__(( section( ".text.blueos" )), aligned( BLOCK_ALIGNMENT ))
+
 #endif
