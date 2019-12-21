@@ -44,11 +44,12 @@ uint32_t* vectorTable[] __attribute__ (( section ( ".vector_table" ))) = {
     (uint32_t*) switcher_SysTick_Handler,        // Timer tick handler
 };
 
-/*Task Schedule*/
-/*ID, Run Time (in Ticks);*/
-/*2, 10; 1, 50; 0, 40; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90;*/
+/* Task Schedule */
+/* Number of taks is limited to 255 due to ID length */
+/* ID, Run Time (in Ticks); */
+/* 2, 10; 1, 50; 0, 40; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; 2, 10; 0, 90; */
 
-// Create an array for the schedule, each uint32_t is divided ID: xx | Run Time: xxxxxx
+/* Create an array for the schedule, each uint32_t is divided ID: xx | Run Time: xxxxxx */
 uint32_t* scheduleTable[] __attribute__ (( section ( ".schedule_table" ))) = {
     (uint32_t*) 0x0200000A,
     (uint32_t*) 0x01000032,
@@ -73,7 +74,7 @@ uint32_t* scheduleTable[] __attribute__ (( section ( ".schedule_table" ))) = {
     (uint32_t*) 0x0000005A,
 };
 
-/*Task Table*/
+/* Task Table */
 /* Create an array for the tasks */
 /*   Code Start Address   , Code Memory Length    , Ram Start Address     , Ram Length            , ID    */
 uint32_t* const taskTable[] __attribute__ (( section ( ".task_table" ))) = {

@@ -1,5 +1,5 @@
-#ifndef BOS_CONFIG
-#define BOS_CONFIG
+#ifndef BOS_CONFIG_H
+#define BOS_CONFIG_H
 
 #define NUMBER_OF_TASKS         3
 #define NUMBER_OF_TASK_DATA     4

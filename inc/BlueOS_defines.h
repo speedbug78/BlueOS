@@ -5,6 +5,7 @@ typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned long uint32_t;
 typedef unsigned long long uint64_t;
+typedef float float_t;
 
 #define BIT0    (uint32_t)( 0x00000001 << 0 )
 #define BIT1    (uint32_t)( 0x00000001 << 1 )

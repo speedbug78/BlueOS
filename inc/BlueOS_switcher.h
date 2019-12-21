@@ -5,6 +5,7 @@
 
 void switcher_Startup( void );
 uint32_t switcher_sysTime( void );
+uint8_t switcher_Get_Curent_Task( void );
 void switcher_Start_Task_Switching( void );
 void switcher_Stop_Task_Switching( void );
 void switcher_PendSV_Handler( void );

@@ -10,6 +10,7 @@
 #include "BlueOS_IO.h"
 #include "BlueOS_utilities.h"
 #include "BlueOS_switcher.h"
+#include "BlueOS_queues.h"
 
 void usage_Fault( uint32_t* stack_ptr );
 void mem_Fault( uint32_t* stack_ptr );
@@ -50,6 +51,8 @@ int main( void ){
     status_Show_Error();
 
     send_Str( CMD_LINE );
+
+    queues_Startup();
 
     /***
      * Continue startup

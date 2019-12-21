@@ -216,6 +216,11 @@ uint32_t sysTick_sysTime( void ){
     return sys_Ticks;
 }
 
+/* Getter to return current task. */
+uint8_t switcher_Get_Curent_Task( void ){
+    return current_task_id;
+}
+
 /* Setter to set next switch time. */
 void switcher_Set_Switch_Time( uint32_t time ){
     next_Switch_Time = time;
